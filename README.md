@@ -9,8 +9,9 @@ fairy-tale horse stable.
 > this one**; the two repos differ only in which exercises their `EXERCISE.md` covers.
 > Exercises 1–2 ran on Day 2; Exercises 3–12 run today.
 >
-> **Bring your `CLAUDE.md` from Day 2.** Part 0 of [EXERCISE.md](EXERCISE.md) shows how
-> to copy it across in one command.
+> **You don't need to have been on Day 2.** Part 0 of [EXERCISE.md](EXERCISE.md) has two
+> paths: copy your Day 2 `CLAUDE.md` across in one command, or build one from scratch in
+> ten minutes. Everything after Part 0 is the same either way.
 
 ## What shape it is
 
@@ -40,7 +41,14 @@ pip install -r requirements.txt
 cp .env.example .env
 python -m src.stable_cli.cli build                  # creates stables.db
 pytest
-cp ../claudeworkshopresearch-lab-days2-3/CLAUDE.md .   # your Day 2 repo context
+```
+
+Then get a `CLAUDE.md` in place — either copy your Day 2 one across, or generate and
+correct a fresh one. [EXERCISE.md](EXERCISE.md) Part 0 covers both paths:
+
+```bash
+cp ../claudeworkshopresearch-lab-days2-3/CLAUDE.md .   # if you have it
+# otherwise: run /init in a Claude session, then correct the draft by hand
 ```
 
 **The database is SQLite** — no install, no server. It ships inside Python as the
