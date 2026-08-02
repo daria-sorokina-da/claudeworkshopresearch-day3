@@ -54,7 +54,7 @@ python -m src.stable_cli.cli build
 pytest
 ```
 
-You should see **23 passed**. If you don't, raise your hand — that's a repo problem,
+You should see **36 passed**. If you don't, raise your hand — that's a repo problem,
 not a you problem.
 
 Try the CLI:
