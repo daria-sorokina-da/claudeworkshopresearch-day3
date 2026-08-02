@@ -1,6 +1,6 @@
 # The Royal Stables Lab — Day 3
 
-**~3.5 hours, plus a short retrospective.**
+**~4 hours, plus a short retrospective.**
 
 > **This repo is self-contained.** Fork it, work through it, done. You do not need
 > anything from Day 2 — not a file, not a clone, not the session. If you were there,
@@ -11,6 +11,7 @@
 | | Contents |
 |---|---|
 | **Part 0** | Fork, clone, branch, install, onboard the repo, pin the red lines |
+| **Part 1** | The kanban board — write a ticket, then work from it |
 | **Exercises 3–12** | The lab |
 | **Wrap-up** | Retrospective and adoption guidance |
 
@@ -20,9 +21,9 @@ and 1–2 ran on Day 2. Exercise 3 here is Exercise 3 on the deck. Nothing below
 
 ## Scope, honestly
 
-Ten exercises. That is more than fits, deliberately — six are marked **backbone** and the
-rest are there so nobody runs out of work. **Doing six properly beats rushing ten.**
-Nobody is behind.
+Two setup parts and ten exercises. That is more than fits, deliberately — Part 1 and six
+of the exercises are marked **backbone** and the rest are there so nobody runs out of
+work. **Doing the backbone properly beats rushing all ten.** Nobody is behind.
 
 Every exercise ends the same way: **read the diff, then commit.** If you didn't read
 it, you didn't finish it.
@@ -119,10 +120,239 @@ The spine of the whole workshop. Every exercise today touches at least one.
 `type: CARD-ID: Description` — e.g. `fix: STB-441: correct inclusive date range`.
 Commit at every milestone. Git is the safety net that makes delegating safe.
 
+**The CARD-ID is not decoration.** Part 1 sets up the board those IDs point at.
+
 ### Commands worth having to hand
 
 `/help` · `/plan` · `/rewind` · `/clear` · `/compact` · `/context` · `/usage` ·
 `/init` · `Esc` · `Shift+Tab`
+
+---
+
+## Part 1 — The board: write a ticket, then work from it (30 min) · backbone
+
+Two halves, and **the second is the one that matters**:
+
+1. **Write a ticket** on a GitHub Projects kanban board — with Claude doing the API
+   plumbing.
+2. **Have Claude read that ticket back.** The ticket becomes the prompt. If the ticket
+   is vague, the plan comes back wrong — and you find that out in ninety seconds rather
+   than at review.
+
+This is the loop your team already lives in, with the ticket as the interface between
+you and the tool instead of a chat message nobody can find again.
+
+### Setup — `gh` and the project scope (6 min)
+
+```bash
+gh --version          # need the GitHub CLI: https://cli.github.com
+gh auth status
+```
+
+Projects is a **separate OAuth scope** and you almost certainly don't have it:
+
+```bash
+gh auth refresh -s project --hostname github.com
+```
+
+That opens a browser once.
+
+**Then two fork behaviours that will otherwise eat your morning.** Run these *inside your
+clone*:
+
+```bash
+# 1. From a fork, gh can't tell whether you mean your fork or the upstream repo,
+#    so it prompts — or refuses. Tell it once:
+gh repo set-default <your-username>/claudeworkshopresearch-day3
+
+# 2. Forks have Issues DISABLED by default. Turn them on:
+gh repo edit --enable-issues
+
+# Confirm:
+gh repo view --json name,owner,hasIssuesEnabled
+```
+
+**No `gh`, or the scope won't grant?** Do Part 1 in the GitHub web UI instead — Projects →
+New project → Board, and Settings → Features → Issues. You lose the "Claude drives it"
+part, which is the interesting bit, but every later exercise still works. **Don't burn
+fifteen minutes on auth.**
+
+### Step 1 — Create the board (5 min)
+
+**Let Claude do this.** These commands are pure ID-juggling — exactly what's worth
+delegating, and exactly what's tedious to get right by hand.
+
+> Using the gh CLI, create a GitHub Project owned by me called "Royal Stables — Day 3",
+> link it to this repository, and print the project number, its node ID and the board
+> URL. Show me each command before you run it.
+
+Roughly:
+
+```bash
+gh project create --owner @me --title "Royal Stables — Day 3"
+gh project list  --owner @me                      # get the number
+gh project link  <number> --owner @me --repo <your-username>/claudeworkshopresearch-day3
+gh project view  <number> --owner @me --format json   # node ID, for later
+```
+
+Two things the CLI won't tell you:
+
+- A new project has a **Status** field with `Todo` / `In Progress` / `Done`. That's your
+  kanban.
+- **Its default view is a table, not a board.** Open the URL and switch the view layout to
+  Board. `gh` cannot do this; it's three clicks in the UI.
+
+### Step 2 — Write the ticket (8 min)
+
+**Write this one yourself, before you let Claude near it.** The exercise turns on ticket
+quality and you can't judge that if the model wrote it.
+
+The bug is real and it's in this repo. Look at what days races actually run on in
+`sql/seed.sql`, then:
+
+```bash
+python -m src.stable_cli.cli week 2026-03-02
+```
+
+It reports **1** race for 2–8 March. Count the races in that range in `sql/seed.sql`
+yourself. **Do that before reading on** — the point is to arrive at the ticket from an
+observation, not from us telling you.
+
+A good ticket states **the observed behaviour, the expected behaviour, and how you'll
+know it's fixed** — and does *not* state the cause, because you don't know it yet.
+
+Write the body to a file (works the same on Windows, macOS and Linux — no heredoc):
+
+```bash
+cat > /tmp/stb-441.md <<'EOF'
+## Observed
+`cli week 2026-03-02` reports 1 race for the week of 2-8 March. sql/seed.sql has a
+second race in that range, on Sunday 8 March.
+
+## Expected
+The weekly report includes every race run between the start and end dates, inclusive
+of both endpoints - as `races_in_window`'s own docstring says it does.
+
+## Done when
+- A test exists that fails before the fix and passes after it
+- `pytest` is green
+- The failing test and the fix are separate commits
+
+## Out of scope
+Anything under `src/algorithm/`.
+EOF
+
+gh issue create \
+  --title "STB-441: Weekly report misses races on the range boundary" \
+  --label bug \
+  --body-file /tmp/stb-441.md
+```
+
+> **On Windows** use PowerShell's `Set-Content` or just edit the file in your editor —
+> `--body-file` is the portable bit. If you're in PowerShell throughout, note that the
+> `source .venv/bin/activate` in Part 0 was `.venv\Scripts\Activate.ps1` too.
+
+Note the issue number it prints — call it `<n>` from here on. Then put it on the board:
+
+```bash
+gh issue list                                            # if you lost the number
+gh project item-add <number> --owner @me --url <issue URL>
+```
+
+<details>
+<summary><strong>Why "Out of scope" earns its line — open after you've written yours</strong></summary>
+
+An agent given a vague ticket widens the blast radius to be helpful. "Out of scope" is
+the cheapest guardrail there is, and it's the line most people leave out. Your `deny`
+rules would catch it here — but on your own repo you won't have written those yet.
+
+Look at your own ticket: does it say what *not* to touch?
+</details>
+
+### Step 3 — Have it read the ticket back (7 min)
+
+**`/clear` first.** This is the honest test: a fresh session that knows nothing but
+`CLAUDE.md` and what the ticket says.
+
+> Read issue #<n> with `gh issue view <n>`. Restate the acceptance criteria in your own
+> words, tell me which files you'd need to touch, and list anything the ticket doesn't
+> tell you that you'd need to know. Do not write any code.
+
+**Read that answer as a review of your ticket, not as an answer:**
+
+- Did it restate the criteria correctly, or quietly invent one?
+- Did the "what's missing" list find a real gap? **It usually does.** Go and fix the
+  ticket — `gh issue edit <n> --body-file /tmp/stb-441.md` after editing the file.
+- Did it propose touching anything you didn't intend?
+
+**Stop there.** Don't fix the bug yet — that's Exercise 5, and it has the red-test-first
+discipline you want for it. You've now got a ticket good enough to hand to someone else,
+which is the deliverable here.
+
+### Step 4 — Moving cards, honestly (4 min)
+
+Move the card to **In Progress**. Try the CLI first:
+
+```bash
+gh project item-list  <number> --owner @me --format json   # item ID
+gh project field-list <number> --owner @me --format json   # Status field ID
+gh project item-edit --id <item-id> --project-id <project-node-id> \
+                     --field-id <status-field-id> --single-select-option-id <option-id>
+```
+
+**You will probably get stuck**, and that's the exercise. `field-list` gives you the
+Status *field* ID but not the IDs of its *options*, so `--single-select-option-id` has
+nothing to fill it with. Getting them needs a raw GraphQL query:
+
+```bash
+gh api graphql -f query='
+  query($org: String!, $num: Int!){ user(login: $org){ projectV2(number: $num){
+    field(name: "Status"){ ... on ProjectV2SingleSelectField { id options { id name } } }
+  }}}' -f org=<your-username> -F num=<number>
+```
+
+Hand that whole problem to Claude and watch it work it out. Then ask yourself the
+question that matters:
+
+**Was that worth automating?** Dragging the card in the browser takes two seconds. The
+CLI path took five minutes and a GraphQL query. **It's worth it when it's in a script
+that runs a hundred times, and not worth it once.** Knowing which case you're in is the
+skill; "the agent can do it" is not the same as "you should have it do it."
+
+### Step 5 — Close the loop (in Exercise 5)
+
+When you fix the bug in Exercise 5, close the ticket. **`Closes #<n>` in a commit message
+only fires when the commit lands on the default branch** — on a working branch it just
+creates a cross-reference and the issue stays open. That trips up everyone once.
+
+So either open a PR and merge it (the realistic path, and it also gives you something to
+run `/review` against in Exercise 8):
+
+```bash
+gh pr create --fill --body "Closes #<n>"
+gh pr merge --squash --delete-branch
+```
+
+…or close it directly, which is fine for a workshop:
+
+```bash
+gh issue close <n> --comment "Fixed in <commit-sha>"
+```
+
+Either way the project's built-in **"item closed → Done"** workflow moves the card for
+you. That's the `CARD-ID` in the commit convention finally doing something: commit, issue
+and card are one chain you can walk in either direction six months from now.
+
+### What this is actually teaching
+
+**A ticket is a prompt with a URL.** Everything that makes a prompt good — stated
+assumptions, explicit scope, a definition of done — is what makes a ticket good. And a
+ticket has two advantages over a chat message: your colleagues can read it, and it
+survives `/clear`.
+
+**The reverse is the uncomfortable half.** If Claude can't work from your ticket, a new
+starter can't either. The model is a fast, cheap, tireless reviewer of your
+specifications, and most tickets do not survive that review.
 
 ---
 
@@ -251,8 +481,24 @@ change. Context7 is what fills the other gap: current, version-specific dialect 
 
 ## Exercise 5 — Off-by-one bug hunt (25 min) · backbone
 
+**This is STB-441 from Part 1.** You wrote the ticket; now close it. If you skipped Part 1
+or the board didn't work, everything below stands on its own — the bug is in the code
+either way.
+
 There is a **boundary bug in the date-range filtering** in `src/stable_cli/reports.py`.
 It is not marked. `pytest` passes. Reports for "the week" quietly miss something.
+
+**Working from the board?** Take a branch off the issue and use the ticket as the brief.
+`gh issue develop` branches from the default branch, so bring your `stables-workshop`
+work with you or you'll be working on bare `master`:
+
+```bash
+gh issue view <n>                     # the brief
+gh issue develop <n> --checkout       # creates and switches to an issue branch
+git merge stables-workshop            # carry your CLAUDE.md and earlier commits over
+```
+
+**Not using the board?** Stay on `stables-workshop`. Everything below is unchanged.
 
 **Red test first. This one is not negotiable.**
 
@@ -277,6 +523,23 @@ It is not marked. `pytest` passes. Reports for "the week" quietly miss something
 
 **Commit as two commits** — the failing test, then the fix. The history should show the
 bug existing and then not.
+
+**Close the ticket** (Part 1, Step 5). Remember `Closes #<n>` only fires when the commit
+reaches the **default branch**, so either merge a PR or close it directly:
+
+```bash
+gh pr create --fill --body "Closes #<n>" && gh pr merge --squash --delete-branch
+# or, quicker:
+gh issue close <n> --comment "Fixed in $(git rev-parse --short HEAD)"
+```
+
+The card moves itself to Done — that's the project's built-in "item closed" workflow, not
+you.
+
+**Then reread your ticket.** Did the "Done when" criteria actually describe what you
+ended up doing? That gap — between what you asked for and what turned out to be needed —
+is the most useful thing on the board today, and it's exactly the gap that makes someone
+else's ticket painful to pick up.
 
 <details>
 <summary><strong>Hint, if you're stuck after 10 minutes</strong></summary>
@@ -324,7 +587,8 @@ specification here, bugs included, because "same output" is the requirement.
 **Actually run both and diff the output.** Don't take its word.
 
 Then: the Perl has at least one genuine oddity. Look at the `TOTAL` row against the
-`ENTRIES` column header, and read the `STB-441` comment.
+`ENTRIES` column header, and read the `STB-118` comment. (Unrelated to the STB-441 you
+wrote in Part 1 — this one is a genuine 2009 artefact, never resolved.)
 
 **Port it faithfully first. Fix it as a separate commit.** Never mix "port" and
 "improve" — if you do, and something breaks, you cannot tell which change did it.

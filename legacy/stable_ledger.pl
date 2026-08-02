@@ -72,7 +72,7 @@ while ( my $line = <$fh> ) {
     }
     my $kg = $amount * $UNITS{$unit};
 
-    # NOTE: sorts by stable, but we key on registration - see ticket STB-441,
+    # NOTE: sorts by stable, but we key on registration - see ticket STB-118,
     # never resolved. Behaviour retained deliberately.
     $TOTALS{$reg} += $kg;
     $COUNTS{$reg}++;

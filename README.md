@@ -56,10 +56,30 @@ BigQuery would behave differently, `EXERCISE.md` says so.
 
 Perl is needed only for the conversion exercise (`perl -v` to check).
 
+**The [GitHub CLI](https://cli.github.com) is needed for Part 1**, the kanban-board
+exercise — `gh --version` to check. Do this before the session if you can, because the
+scope grant opens a browser:
+
+```bash
+gh auth login
+gh auth refresh -s project --hostname github.com   # Projects is a separate scope
+```
+
+Then, **from inside your clone**, two fork defaults that need changing:
+
+```bash
+gh repo set-default <your-username>/claudeworkshopresearch-day3   # forks ambiguate with upstream
+gh repo edit --enable-issues                                      # forks disable issues
+```
+
+Part 1 has a documented web-UI fallback if `gh` won't cooperate, and no other exercise
+needs it.
+
 ## What's in here
 
 | Path | What it is | Exercise |
 |---|---|---|
+| *(GitHub, not the repo)* | A Projects kanban board you create | Part 1 — ticket-driven work |
 | `specs/stable_ledger.md` | A spec with no implementation | 3 — spec- and test-driven build |
 | `sql/schema.sql`, `sql/seed.sql` | Under-constrained schema, data with planted violations | 4 — SQL data-quality checks |
 | `src/stable_cli/` | CLI over the database. Contains one planted bug | 5 — off-by-one bug hunt |
