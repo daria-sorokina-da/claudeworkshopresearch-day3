@@ -34,7 +34,7 @@ it, you didn't finish it.
 
 ---
 
-## Part 0 — Setup and ground rules (15 min)
+## Part 0 — Setup and ground rules (18 min)
 
 ```bash
 # 1. Fork this repo on GitHub, then clone YOUR fork
