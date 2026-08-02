@@ -142,6 +142,10 @@ Two halves, and **the second is the one that matters**:
 This is the loop your team already lives in, with the ticket as the interface between
 you and the tool instead of a chat message nobody can find again.
 
+> **Everything here is yours.** Your fork, your issues, your project board, under your
+> own GitHub account. There is no shared board and nothing you do lands on anyone else's
+> repo — so break it freely. `--owner @me` throughout means *you*.
+
 ### Setup — `gh` and the project scope (6 min)
 
 ```bash
@@ -183,8 +187,8 @@ fifteen minutes on auth.**
 delegating, and exactly what's tedious to get right by hand.
 
 > Using the gh CLI, create a GitHub Project owned by me called "Royal Stables — Day 3",
-> link it to this repository, and print the project number, its node ID and the board
-> URL. Show me each command before you run it.
+> link it to my fork of this repository, and print the project number, its node ID and
+> the board URL. Show me each command before you run it.
 
 Roughly:
 
