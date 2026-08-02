@@ -3,15 +3,9 @@
 **The Day 3 lab repository.** A deliberately half-finished Python + SQL project about a
 fairy-tale horse stable.
 
-> **The lab started on Day 2**, in
-> [`claudeworkshopresearch-lab-days2-3`](https://github.com/daria-sorokina-da/claudeworkshopresearch-lab-days2-3)
-> — Part 0, repo onboarding, and the EDA exercise. **The codebase there is identical to
-> this one**; the two repos differ only in which exercises their `EXERCISE.md` covers.
-> Exercises 1–2 ran on Day 2; Exercises 3–12 run today.
->
-> **You don't need to have been on Day 2.** Part 0 of [EXERCISE.md](EXERCISE.md) has two
-> paths: copy your Day 2 `CLAUDE.md` across in one command, or build one from scratch in
-> ten minutes. Everything after Part 0 is the same either way.
+> **Self-contained.** Fork it, work through [EXERCISE.md](EXERCISE.md), done. You need
+> nothing from any earlier session — the exercises are numbered from 3 only because the
+> slides number them across the whole workshop.
 
 ## What shape it is
 
@@ -43,13 +37,9 @@ python -m src.stable_cli.cli build                  # creates stables.db
 pytest
 ```
 
-Then get a `CLAUDE.md` in place — either copy your Day 2 one across, or generate and
-correct a fresh one. [EXERCISE.md](EXERCISE.md) Part 0 covers both paths:
-
-```bash
-cp ../claudeworkshopresearch-lab-days2-3/CLAUDE.md .   # if you have it
-# otherwise: run /init in a Claude session, then correct the draft by hand
-```
+Then onboard the repo — run `/init` in a Claude session and **correct the draft by hand**.
+Part 0 of [EXERCISE.md](EXERCISE.md) walks through it and is worth the twelve minutes:
+every later prompt inherits that file.
 
 **The database is SQLite** — no install, no server. It ships inside Python as the
 `sqlite3` module and the whole database is one file, `stables.db`. Delete it and re-run
@@ -79,7 +69,7 @@ Perl is needed only for the conversion exercise (`perl -v` to check).
 | `src/pipeline/` | Four stages, not idempotent, not atomic | 9 — pipelines |
 | `src/monitor/` | Directory watcher with the five classic bugs | 9 — monitoring |
 | `src/ml/` | A classifier that reports 1.000 accuracy and is worthless | 10 — a little ML |
-| `data/race_results.csv`, `data/measurements.csv` | Deliberately messy datasets — Day 2's EDA exercise | Optional self-practice |
+| `data/race_results.csv`, `data/measurements.csv` | Deliberately messy datasets | Optional self-practice — EDA |
 | `analysis/slow_aggregate.py` | Correct and needlessly slow | Optional self-practice |
 
 ## A note on the planted bugs

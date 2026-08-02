@@ -2,26 +2,21 @@
 
 **~3.5 hours, plus a short retrospective.**
 
-> **This is the Day 3 repo.** The lab began in the second half of Day 2 — Part 0, repo
-> onboarding, and the EDA exercise — in
-> [`claudeworkshopresearch-lab-days2-3`](https://github.com/daria-sorokina-da/claudeworkshopresearch-lab-days2-3).
-> **The codebase here is the same one.** What differs is the exercise set: Exercises 1–2
-> ran on Day 2, Exercises 3–12 run today.
->
-> **You don't need to have been on Day 2.** Part 0 has two paths: bring your `CLAUDE.md`
-> across if you have one, or build one in ten minutes if you don't. Everything after Part
-> 0 is the same either way.
+> **This repo is self-contained.** Fork it, work through it, done. You do not need
+> anything from Day 2 — not a file, not a clone, not the session. If you were there,
+> nothing you did is wasted; you'll just move through Part 0 faster.
 
 ## What today covers
 
 | | Contents |
 |---|---|
-| **Part 0** | Clone, branch, install, get a `CLAUDE.md` in place, pin the red lines |
-| **Exercises 3–12** | The rest of the lab |
+| **Part 0** | Fork, clone, branch, install, onboard the repo, pin the red lines |
+| **Exercises 3–12** | The lab |
 | **Wrap-up** | Retrospective and adoption guidance |
 
-Numbering continues from Day 2 on purpose — the slides refer to exercises by number, so
-Exercise 3 here is Exercise 3 on the deck.
+**Why it starts at Exercise 3:** the slides number exercises across the whole workshop,
+and 1–2 ran on Day 2. Exercise 3 here is Exercise 3 on the deck. Nothing below depends on
+1 or 2.
 
 ## Scope, honestly
 
@@ -34,7 +29,7 @@ it, you didn't finish it.
 
 ---
 
-## Part 0 — Setup and ground rules (18 min, or 27 if you weren't on Day 2)
+## Part 0 — Setup and ground rules (27 min)
 
 ```bash
 # 1. Fork this repo on GitHub, then clone YOUR fork
@@ -65,44 +60,10 @@ python -m src.stable_cli.cli week 2026-03-16
 python -m src.stable_cli.cli horse 1
 ```
 
-### Get a `CLAUDE.md` in place — two paths (3 or 12 min)
+### Onboard the repo (12 min)
 
-Everything today works better with a `CLAUDE.md` that describes this repo accurately.
-It loads into every session and survives `/clear`; the conversation does not.
-
-**Path A** if you were on Day 2 and still have the file. **Path B** if you weren't, or
-you've lost it, or you're on a different machine. Both end in the same place — B just
-takes nine minutes longer.
-
-#### Path A — carry yours across (3 min)
-
-Day 2's Exercise 1 produced a corrected `CLAUDE.md`: the repo map, the schema summary,
-the test command, the off-limits paths, your conventions. **The code in this repo is
-identical to the Day 2 one**, so that file applies here unchanged.
-
-```bash
-cp ../claudeworkshopresearch-lab-days2-3/CLAUDE.md .
-git add CLAUDE.md && git commit -m "docs: carry Day 2 repo context into the Day 3 lab"
-```
-
-Adjust the path to wherever your Day 2 clone lives. If the clone is gone but you pushed
-your Day 2 branch, re-clone your fork somewhere temporary and take the file from there:
-
-```bash
-git clone -b stables-workshop https://github.com/<your-username>/claudeworkshopresearch-lab-days2-3 /tmp/day2
-cp /tmp/day2/CLAUDE.md .
-```
-
-(The repos are private, so this uses your GitHub credentials — a plain `curl` of the raw
-file won't work.)
-
-**Then read it before you start.** Day 2 was a while ago. A `CLAUDE.md` you haven't
-reread is a context file you're trusting on a memory that has gone cold.
-
-#### Path B — build one from scratch (12 min)
-
-This is a compressed run of Day 2's Exercise 1. **Nothing today assumes you were there** —
-you are not behind, and this step is genuinely useful rather than catch-up busywork.
+**Do this before anything else. It changes the quality of every later prompt.**
+`CLAUDE.md` loads into every session and survives `/clear`; the conversation does not.
 
 1. **Generate a first draft:**
    ```
@@ -134,18 +95,16 @@ you are not behind, and this step is genuinely useful rather than catch-up busyw
    **The corrections are the part that matters.** A generated draft you haven't edited is
    worth very little; the editing is where you learn the repo.
 
-5. `git add CLAUDE.md && git commit -m "docs: repo context for the Day 3 lab"`
+5. `git add CLAUDE.md && git commit -m "docs: repo context for the lab"`
 
-**Want the full version?** Day 2's Exercise 1 is in the Day 2 repo's `EXERCISE.md`, along
-with Exercise 2 — the EDA and visualisation work on `data/race_results.csv`. Both datasets
-ship with this repo, so you can do that exercise here any time. The repo is
-[`claudeworkshopresearch-lab-days2-3`](https://github.com/daria-sorokina-da/claudeworkshopresearch-lab-days2-3)
-— it's private, so **ask the facilitator for access** if you weren't sent it.
+**Did this on Day 2 and still have the file?** Drop it in, reread it, and check it against
+this repo before you trust it — this codebase moves independently of the Day 2 one, so
+treat an old `CLAUDE.md` as a draft to verify, not a fact. Twelve minutes either way is
+the safe assumption.
 
 ### The five red lines
 
-Pinned on Day 1 and worth restating — they are the spine of the whole workshop, and every
-exercise today touches at least one.
+The spine of the whole workshop. Every exercise today touches at least one.
 
 1. **Never let it modify code whose correctness isn't visible in the code** — here, `src/algorithm/`.
    Matching logic is the obvious case; so are validated methods, thresholds set by a
@@ -654,10 +613,19 @@ need is the skill.**
   ```bash
   python -m cProfile -s cumtime analysis/slow_aggregate.py | head -25
   ```
-- **The EDA exercise, if you missed Day 2** — `data/race_results.csv` and
-  `data/measurements.csv` are here, deliberately messy. Exercise 2 in the Day 2 repo's
-  `EXERCISE.md` walks through it and runs fine against this clone. Worth 30 minutes even
-  if you were there — there is more in that file than the session allowed.
+- **EDA on the messy datasets** — `data/race_results.csv` and `data/measurements.csv` are
+  deliberately dirty: missing values, inconsistent casing, a comma decimal, a unit suffix
+  in a numeric column, an impossible date, an order-of-magnitude outlier, duplicate rows.
+  Profile before cleaning, decide each cleaning step yourself, then plot — and commit the
+  script alongside the figures. Worth 30 minutes.
+  > Profile data/race_results.csv: row count, dtypes, null counts per column,
+  > cardinality, and anything that looks like a data-entry error. Don't clean it yet —
+  > just tell me what's there.
+
+  Then, for each cleaning step it proposes: how many rows does it affect, what assumption
+  does it encode, and what goes wrong if that assumption is false? The `58,4` value is the
+  one to dwell on — coerce it wrong and you get `584`, plausible enough to survive review
+  and wrong by a factor of ten.
 - **Go deeper on any earlier exercise** — most have more in them than the time allowed.
 - **Try it on your own repo** — with red lines and `deny` rules in place *first*.
 
@@ -665,7 +633,7 @@ need is the skill.**
 
 ## Wrap-up (20 min)
 
-Covering today, and the Day 2 half of the lab if you were there.
+Covering today, and any earlier sessions you attended.
 
 1. **What worked?** Which prompt, technique or guardrail will you use on Monday?
 2. **What didn't?** Where did it waste your time or produce something confidently
