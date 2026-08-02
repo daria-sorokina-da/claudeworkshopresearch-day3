@@ -1,0 +1,10 @@
+# week commencing 2026-03-23 - mixed, contains deliberate errors
+2026-03-23 | RS-1004 | HAY-STD | 4kg   | DR
+2026-03-23 | RS-1004 | HAY-STD | -2kg  | DR
+2026-13-01 | RS-1005 | HAY-STD | 4kg   | CA
+2026-03-24 | RS-999  | HAY-STD | 4kg   | CA
+2026-03-24 | RS-1005 | hay-std | 4kg   | CA
+2026-03-25 | RS-1005 | HAY-STD | 4stone| CA
+2026-03-25 | RS-1006 | MIX-HIF | 2.5kg
+2026-03-26 | RS-1006 | MIX-HIF | 2.5kg | AF | extra
+2026-03-26 | RS-1010 | MIX-HIF | 0kg   | BM

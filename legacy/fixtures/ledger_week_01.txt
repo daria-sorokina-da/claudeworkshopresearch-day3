@@ -1,0 +1,9 @@
+# week commencing 2026-03-16 - Northgate
+2026-03-16 | RS-1001 | HAY-STD | 4.5kg  | AF
+2026-03-16 | RS-1002 | MIX-HIF | 3000g  | BM
+2026-03-17 | RS-1001 | HAY-STD | 4.5kg  | AF
+2026-03-17 | rs-1002 | MIX-HIF | 6.6lb  | bm
+2026-03-18 | RS-1001 | HAY-STD | 5kg    | AF
+
+2026-03-18 | RS-1009 | HAY-STD | 4kg    | ES
+2026-03-19 | RS-1001 | HAY-STD | 4.5 kg | AF

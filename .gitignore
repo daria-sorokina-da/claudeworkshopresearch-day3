@@ -1,0 +1,17 @@
+.env
+.env.local
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.claude/settings.local.json
+
+# Build artefacts from the pipeline exercise — regenerated, never committed
+build/
+dropbox/processed/
+dropbox/failed/
+analysis/figures/
+*.db
+!stables_seed.db
+.DS_Store

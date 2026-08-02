@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(./.env)",
+      "Write(src/algorithm/**)",
+      "Edit(src/algorithm/**)",
+      "Write(./src/algorithm/**)",
+      "Edit(./src/algorithm/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/guard_algorithm.py"
+          }
+        ]
+      }
+    ]
+  }
+}
