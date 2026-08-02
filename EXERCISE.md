@@ -6,9 +6,9 @@
 > onboarding, and the EDA exercise — in
 > [`claudeworkshopresearch-lab-days2-3`](https://github.com/daria-sorokina-da/claudeworkshopresearch-lab-days2-3).
 > **The codebase here is the same one.** What differs is the exercise set: Exercises 1–2
-> ran yesterday, Exercises 3–12 run today.
+> ran on Day 2, Exercises 3–12 run today.
 >
-> **Bring your `CLAUDE.md` from yesterday.** Part 0 below tells you how. Exercise 1 is
+> **Bring your `CLAUDE.md` from Day 2.** Part 0 below tells you how. Exercise 1 is
 > what makes every prompt today work properly; starting from a bare clone throws that
 > away.
 
@@ -65,11 +65,11 @@ python -m src.stable_cli.cli week 2026-03-16
 python -m src.stable_cli.cli horse 1
 ```
 
-### Bring yesterday's `CLAUDE.md` across (3 min)
+### Bring your Day 2 `CLAUDE.md` across (3 min)
 
-Yesterday's Exercise 1 produced a corrected `CLAUDE.md` — the repo map, the schema
+Day 2's Exercise 1 produced a corrected `CLAUDE.md` — the repo map, the schema
 summary, the test command, the off-limits paths, your conventions. **The code in this
-repo is identical to yesterday's**, so that file applies here unchanged.
+repo is identical to the Day 2 one**, so that file applies here unchanged.
 
 ```bash
 cp ../claudeworkshopresearch-lab-days2-3/CLAUDE.md .
@@ -80,8 +80,8 @@ Adjust the path to wherever your Day 2 clone lives. Don't have it — laptop swa
 missed the session? Run `/init`, then spend five minutes correcting it by hand. The
 corrections are the part that matters; the generated draft is not.
 
-**Then read it again before you start.** A `CLAUDE.md` you haven't reread is a context
-file you're trusting on yesterday's memory.
+**Then read it again before you start.** Day 2 was a while ago. A `CLAUDE.md` you
+haven't reread is a context file you're trusting on a memory that has gone cold.
 
 ### Re-pin the five red lines
 
@@ -592,7 +592,7 @@ need is the skill.**
   ```bash
   python -m cProfile -s cumtime analysis/slow_aggregate.py | head -25
   ```
-- **More EDA on `data/race_results.csv`** — yesterday's dataset is still here, and there
+- **More EDA on `data/race_results.csv`** — the Day 2 dataset is still here, and there
   is more in it than 30 minutes allowed.
 - **Go deeper on any earlier exercise** — most have more in them than the time allowed.
 - **Try it on your own repo** — with red lines and `deny` rules in place *first*.
@@ -601,7 +601,7 @@ need is the skill.**
 
 ## Wrap-up (20 min)
 
-Covering both lab sessions — yesterday's half day as well as today.
+Covering both lab sessions — the Day 2 half as well as today.
 
 1. **What worked?** Which prompt, technique or guardrail will you use on Monday?
 2. **What didn't?** Where did it waste your time or produce something confidently

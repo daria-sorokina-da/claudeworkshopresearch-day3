@@ -7,7 +7,7 @@ fairy-tale horse stable.
 > [`claudeworkshopresearch-lab-days2-3`](https://github.com/daria-sorokina-da/claudeworkshopresearch-lab-days2-3)
 > — Part 0, repo onboarding, and the EDA exercise. **The codebase there is identical to
 > this one**; the two repos differ only in which exercises their `EXERCISE.md` covers.
-> Exercises 1–2 ran yesterday; Exercises 3–12 run today.
+> Exercises 1–2 ran on Day 2; Exercises 3–12 run today.
 >
 > **Bring your `CLAUDE.md` from Day 2.** Part 0 of [EXERCISE.md](EXERCISE.md) shows how
 > to copy it across in one command.
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 cp .env.example .env
 python -m src.stable_cli.cli build                  # creates stables.db
 pytest
-cp ../claudeworkshopresearch-lab-days2-3/CLAUDE.md .   # yesterday's repo context
+cp ../claudeworkshopresearch-lab-days2-3/CLAUDE.md .   # your Day 2 repo context
 ```
 
 **The database is SQLite** — no install, no server. It ships inside Python as the
