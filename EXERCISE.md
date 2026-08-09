@@ -15,18 +15,18 @@ numbering; nothing here depends on them.
 
 | | Contents | |
 |---|---|---|
-| **Part 0** | Fork, clone, branch, install, pin the red lines | 15 min |
-| **Exercise 1** | Onboard and harness the repo — `/init`, a summary with its sources, diagram, `CLAUDE.md`, MCP | backbone |
-| **Exercise 2** | Build your team toolkit — skill, `/review` command, test hook, `deny` rules | backbone |
-| **Exercise 3** | Tickets — read one, fix it, comment back | backbone |
-| **Exercise 4** | Spec- and test-driven build | backbone |
-| **Exercise 5** | SQL data-quality checks | backbone |
-| **Exercise 6** | Perl → Python conversion | if time |
-| **Exercise 7** | Unfamiliar technologies — CSS/JS | if time |
-| **Exercise 8** | Orchestrate sub-agents | backbone |
-| **Exercise 9** | Pipelines and monitoring | extra |
-| **Exercise 10** | A little ML | extra |
-| **Exercise 11** | Claude Science and Cowork | extra |
+| [**Part 0**](#part-0--setup-and-ground-rules-15-min) | Fork, clone, branch, install, pin the red lines | 15 min |
+| [**Exercise 1**](#exercise-1--onboard-and-harness-the-repo-30-min--backbone) | Onboard and harness the repo — `/init`, a summary with its sources, diagram, `CLAUDE.md`, MCP | backbone |
+| [**Exercise 2**](#exercise-2--build-your-team-toolkit-30-min--backbone) | Build your team toolkit — skill, `/review` command, test hook, `deny` rules | backbone |
+| [**Exercise 3**](#exercise-3--tickets-read-one-then-fix-it-23-min--backbone) | Tickets — read one, fix it, comment back | backbone |
+| [**Exercise 4**](#exercise-4--spec--and-test-driven-build-30-min--backbone) | Spec- and test-driven build | backbone |
+| [**Exercise 5**](#exercise-5--sql-data-quality-checks-20-min--backbone) | SQL data-quality checks | backbone |
+| [**Exercise 6**](#exercise-6--perl--python-conversion-30-min--if-time) | Perl → Python conversion | if time |
+| [**Exercise 7**](#exercise-7--unfamiliar-technologies-cssjs-25-min--if-time) | Unfamiliar technologies — CSS/JS | if time |
+| [**Exercise 8**](#exercise-8--orchestrate-sub-agents-25-min--backbone) | Orchestrate sub-agents | backbone |
+| [**Exercise 9**](#exercise-9--pipelines-and-monitoring-25-min--extra) | Pipelines and monitoring | extra |
+| [**Exercise 10**](#exercise-10--a-little-ml-25-min--extra) | A little ML | extra |
+| [**Exercise 11**](#exercise-11--claude-science-and-cowork-30-min--extra-if-access-allows) | Claude Science and Cowork | extra |
 
 **The order is deliberate: onboard the repo, set up the guardrails, then do real work
 with both running.** Sub-agents come after that, because they are worth very little until
