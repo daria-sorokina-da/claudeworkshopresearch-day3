@@ -266,25 +266,22 @@ A **skill** is on-demand context Claude loads *only when it's relevant* — chea
 `CLAUDE.md`, which loads every single session. `CLAUDE.md` is for what's always true; a
 skill is for a recipe you follow occasionally.
 
-**Write the recipe you're about to need.** In Exercise 7 you'll write SQL data-quality
-checks on this database — the same kind of integrity checking you'd run on any real
-relational dataset with messy, incomplete records. Codify the method now, so the skill is
-doing the remembering instead of you:
+**Turn something you just did into something you never have to ask for again.** In
+Exercise 3.5 you asked Claude to produce a Mermaid ER diagram of the schema and save it to
+`diagrams/schema.md`. Codify that recipe so next time you don't have to spell it out:
 
 ```
-Create a skill that should load automatically whenever I ask for validation or
-data-quality queries. It should capture this recipe:
-- list the constraints the schema SHOULD enforce but doesn't, BEFORE writing any SQL;
-- one query per constraint, nothing bundled;
-- save each to sql/checks/NN_description.sql with a comment naming the constraint and
-  saying what a non-empty result means;
-- state for each whether it should also become a database constraint, and note that
-  adding one to a table that already violates it will fail.
+Create a skill that should load automatically whenever I ask you to document or
+diagram a database schema. It should capture this recipe:
+- read the schema (via the stables-db MCP if it's connected, otherwise sql/schema.sql);
+- produce a Mermaid ER diagram covering every table and its foreign-key relationships;
+- save it to diagrams/schema.md.
 Keep it tight.
 ```
 
-✅ **Acceptance:** the skill exists, and you've read through it. You'll see it fire in
-Exercise 7, and revise it after Exercise 8.
+✅ **Acceptance:** the skill exists, and you've read through it. Try
+`Document the schema again` in a fresh turn and watch it fire without you repeating the
+recipe.
 
 **You don't have to write every skill.** They install like packages
 ([plugin docs](https://code.claude.com/docs/en/discover-plugins); Anthropic's catalogue is
@@ -547,10 +544,29 @@ Watch red → green. Then `/review`, read the diff, commit.
 ## Exercise 7 — SQL data-quality checks (20 min) · backbone
 
 The same mechanics you'd use on any real relational dataset with integrity problems, just
-a different domain. Two things from earlier are about to do the work for you: the
-`stables-db` MCP from 3.5, and **the skill you wrote in 4.1**.
+a different domain. The `stables-db` MCP from 3.5 does some of the work for you; the rest
+is a recipe worth codifying before you run it, not after.
 
-### 7.1 — Predict, then find (12 min)
+### 7.1 — Write the recipe, then use it (12 min)
+
+**Write the skill first.** You're about to write SQL data-quality checks on this
+database — the same kind of integrity checking you'd run on any real relational dataset
+with messy, incomplete records. Codify the method now, so the skill does the remembering
+instead of you:
+
+```
+Create a skill that should load automatically whenever I ask for validation or
+data-quality queries. It should capture this recipe:
+- list the constraints the schema SHOULD enforce but doesn't, BEFORE writing any SQL;
+- one query per constraint, nothing bundled;
+- save each to sql/checks/NN_description.sql with a comment naming the constraint and
+  saying what a non-empty result means;
+- state for each whether it should also become a database constraint, and note that
+  adding one to a table that already violates it will fail.
+Keep it tight.
+```
+
+✅ **Acceptance:** the skill exists, and you've read through it.
 
 **Ask for the list before the queries:**
 
