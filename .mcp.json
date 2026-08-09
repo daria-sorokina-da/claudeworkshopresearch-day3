@@ -2,7 +2,7 @@
   "mcpServers": {
     "stables-db": {
       "command": "uvx",
-      "args": ["mcp-server-sqlite", "--db-path", "./stables.db"]
+      "args": ["--with", "mcp<2.0", "mcp-server-sqlite", "--db-path", "./stables.db"]
     }
   }
 }
