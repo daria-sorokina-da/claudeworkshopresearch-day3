@@ -568,20 +568,19 @@ Keep it tight.
 
 ✅ **Acceptance:** the skill exists, and you've read through it.
 
-**Ask for the list before the queries:**
+**Now ask the short version — the skill should carry the rest:**
 
-> Here is sql/schema.sql. Before writing any SQL, list the integrity constraints this
-> schema should enforce but doesn't. Then write one validation query per constraint.
-> Return the queries only — don't run them yet.
+> Write validation queries for sql/schema.sql.
 
-✅ **Watch for this:** you didn't tell it to save each query to `sql/checks/NN_*.sql`, or to
-comment what a non-empty result means, or to say whether each should be a constraint — and
-it should do all three anyway, because your skill loaded. **If it didn't load, that's the
-lesson**: check the `description` line in your `SKILL.md`, because a skill that doesn't
-trigger is a skill that doesn't exist.
+✅ **Watch for this:** you didn't say to list constraints before writing SQL, save each
+query to `sql/checks/NN_*.sql`, comment what a non-empty result means, or say whether each
+should be a constraint — and it should do all four anyway, because your skill loaded.
+**If it didn't, that's the lesson**: check the `description` line in your `SKILL.md`,
+because a skill that doesn't trigger is a skill that doesn't exist.
 
-Order matters, and the skill encodes why. Ask for queries first and you get queries for the
-problems that are easy to imagine, not the ones that are there.
+That order — constraints before queries — is exactly why the recipe was worth codifying.
+Ask for queries first and you get queries for the problems that are easy to imagine, not
+the ones that are there.
 
 **Read the queries before running them.** A query returning nothing might mean clean data —
 or a wrong join.
