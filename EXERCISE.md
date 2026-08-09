@@ -16,7 +16,7 @@ numbering; nothing here depends on them.
 | | Contents | |
 |---|---|---|
 | [**Part 0**](#part-0--setup-and-ground-rules-15-min) | Fork, clone, branch, install, pin the red lines | 15 min |
-| [**Exercise 1**](#exercise-1--onboard-and-harness-the-repo-30-min--backbone) | Onboard and harness the repo — `/init`, a summary with its sources, diagram, `CLAUDE.md`, MCP | backbone |
+| [**Exercise 1**](#exercise-1--onboard-and-harness-the-repo-12-min--backbone) | Onboard and harness the repo — `/init`, a summary with its sources, `CLAUDE.md`, MCP | backbone |
 | [**Exercise 2**](#exercise-2--build-your-team-toolkit-30-min--backbone) | Build your team toolkit — skill, `/review` command, test hook, `deny` rules | backbone |
 | [**Exercise 3**](#exercise-3--tickets-read-one-then-fix-it-23-min--backbone) | Tickets — read one, fix it, comment back | backbone |
 | [**Exercise 4**](#exercise-4--spec--and-test-driven-build-30-min--backbone) | Spec- and test-driven build | backbone |
@@ -41,16 +41,16 @@ Wall-clock assumes a 09:15 start — shift it to suit.
 | Time | | Minutes |
 |---|---|---|
 | 09:15 | **Part 0** — Setup and ground rules | 15 |
-| 09:30 | **Exercise 1** — Onboard and harness the repo | 30 |
-| 10:00 | **Exercise 2** — Build your team toolkit | 30 |
-| 10:30 | **Exercise 3** — Tickets | 23 |
-| 10:53 | **Exercise 4** — Spec- and test-driven build | 30 |
-| 11:23 | **Break** | 15 |
-| 11:38 | **Exercise 5** — SQL data-quality checks | 20 |
-| 11:58 | **Come back to the toolkit** — revise it | 5 |
-| 12:03 | **Exercise 8** — Orchestrate sub-agents | 25 |
-| 12:28 | **Wrap-up** and retrospective | 20 |
-| 12:48 | **Extras** — Exercises 6 and 7 first, then 9–11 | remaining time |
+| 09:30 | **Exercise 1** — Onboard and harness the repo | 12 |
+| 09:42 | **Exercise 2** — Build your team toolkit | 30 |
+| 10:12 | **Exercise 3** — Tickets | 23 |
+| 10:35 | **Exercise 4** — Spec- and test-driven build | 30 |
+| 11:05 | **Break** | 15 |
+| 11:20 | **Exercise 5** — SQL data-quality checks | 20 |
+| 11:40 | **Come back to the toolkit** — revise it | 5 |
+| 11:45 | **Exercise 8** — Orchestrate sub-agents | 25 |
+| 12:10 | **Wrap-up** and retrospective | 20 |
+| 12:30 | **Extras** — Exercises 6 and 7 first, then 9–11 | remaining time |
 
 ---
 
@@ -127,7 +127,7 @@ and the [`/btw` side-note trick](CHEATSHEET.md#mid-task-side-notes).
 
 ---
 
-## Exercise 1 — Onboard and harness the repo (30 min) · backbone
+## Exercise 1 — Onboard and harness the repo (12 min) · backbone
 
 **Do this before anything else. It changes the quality of every later prompt.**
 `CLAUDE.md` loads into every session and survives `/clear`; the conversation does not.
@@ -153,63 +153,15 @@ next:
 
 ✅ **Acceptance:** you get a summary *and* a file list. Now every claim in the summary
 has an address — if one bullet matters to you, you already know which file to open.
-Keep pairing summaries with their sources all day; it turns a paragraph into a
-starting point.
 
-### 1.2 — Diagram the data flow from the code, not the README (5 min)
-
-> Produce a Mermaid diagram of how data moves from the raw CSVs through to the
-> final report. Base it only on the code. Save it to diagrams/data-flow.md.
-
-Open the file in a Markdown preview — the diagram renders. Architecture docs for free,
-straight from the code — and worth committing, since `diagrams/` isn't scratch space,
-it's documentation the next person benefits from too.
-
-### 1.3 — Plan mode: look before you leap (5 min)
-
-```
-/plan
-
-I want this repo to be easier for a new researcher to find their way around.
-What should go in CLAUDE.md? Just propose it — don't write anything yet.
-```
-
-Steer the plan in plain language before approving — *"stick to the schema, the test
-command and the conventions; keep it short and factual."* This separates **thinking
-from doing**, and it is the cheapest place to catch a wrong assumption.
-
-> **Where do plan files go?** By default, `~/.claude/plans/` — one global folder shared
-> across every repo you work in. This repo overrides that with `"plansDirectory": ".temp"`
-> in `.claude/settings.json`, so plans land in `.temp/` here instead — gitignored, so
-> they never get committed. See [Plan mode](CHEATSHEET.md#plan-mode) in the cheatsheet
-> for more on that setting.
-
-### 1.4 — Make the context permanent in CLAUDE.md (8 min)
-
-**Prove it loads** with the question any actual newcomer asks on day one:
-
-```
-/clear
-
-Without reading or searching any files: what's our commit message convention here?
-```
-
-✅ **Acceptance:** Claude answers instantly, with no tool calls, and gives you
-`type: #ISSUE-NUMBER: Description` (from Part 0) — not a generic guess like "conventional
-commits." That's the actual proof: the answer was already sitting in context from
-`CLAUDE.md`, not fetched by a fresh scan of the repo, and it's specific enough that
-Claude couldn't have pattern-matched its way to it. If it reaches for `Read` or `Grep`
-before answering, or gives you something generic instead, that's a real gap — go add
-the convention to `CLAUDE.md` by hand.
-
-`CLAUDE.md` reloads automatically after `/clear`. You wrote it once; every future
-session and every teammate on a fresh clone inherits it.
+Correct anything wrong in `CLAUDE.md` by hand, then commit it — every later exercise
+inherits this file:
 
 ```bash
 git add CLAUDE.md && git commit -m "docs: repo context for the lab"
 ```
 
-### 1.5 — Wire up the database MCP (5 min)
+### 1.2 — Wire up the database MCP (5 min)
 
 MCP (Model Context Protocol) is how Claude reaches tools that aren't the filesystem or
 the shell. This repo ships a **committed `.mcp.json`** pointing a SQLite MCP server at
@@ -236,8 +188,8 @@ Exercise 5:
 
 ✅ **Acceptance:** `/mcp` shows `stables-db` connected, Claude reads the schema directly
 through it instead of shelling out to inspect it, and `diagrams/schema.md` renders a
-diagram you can check against `sql/schema.sql` — another piece of architecture
-documentation earned for free, alongside the data-flow diagram from 1.2.
+diagram you can check against `sql/schema.sql` — architecture documentation earned for
+free, straight from the code.
 
 **If it doesn't start**, carry on without it. `uvx` needs `uv` installed, and MCP package
 names move around. Claude has `Bash` and can write Python, so every exercise below works
@@ -267,7 +219,7 @@ A **skill** is on-demand context Claude loads *only when it's relevant* — chea
 skill is for a recipe you follow occasionally.
 
 **Turn something you just did into something you never have to ask for again.** In
-Exercise 1.5 you asked Claude to produce a Mermaid ER diagram of the schema and save it to
+Exercise 1.2 you asked Claude to produce a Mermaid ER diagram of the schema and save it to
 `diagrams/schema.md`. Codify that recipe so next time you don't have to spell it out:
 
 ```
@@ -543,16 +495,15 @@ Watch red → green. Then `/review`, read the diff, commit.
 
 ## Exercise 5 — SQL data-quality checks (20 min) · backbone
 
-The same mechanics you'd use on any real relational dataset with integrity problems, just
-a different domain. The `stables-db` MCP from 1.5 does some of the work for you; the rest
-is a recipe worth codifying before you run it, not after.
+`sql/schema.sql` is deliberately under-constrained — no `UNIQUE` on `registration_no`, no
+`REFERENCES` clauses — and `sql/seed.sql` loaded rows that exploit the gaps.
 
-### 5.1 — Write the recipe, then use it (12 min)
+**Your job: find the bad rows, then decide what should have stopped them.** The
+`stables-db` MCP from 1.2 queries the database for you.
 
-**Write the skill first.** You're about to write SQL data-quality checks on this
-database — the same kind of integrity checking you'd run on any real relational dataset
-with messy, incomplete records. Codify the method now, so the skill does the remembering
-instead of you:
+### 5.1 — Codify the method as a skill (6 min)
+
+Write the skill before you need it:
 
 ```
 Create a skill that should load automatically whenever I ask for validation or
@@ -568,7 +519,9 @@ Keep it tight.
 
 ✅ **Acceptance:** the skill exists, and you've read through it.
 
-**Now ask the short version — the skill should carry the rest:**
+### 5.2 — Find the bad rows (8 min)
+
+**Ask the short version — the skill should carry the rest:**
 
 > Write validation queries for sql/schema.sql.
 
@@ -578,8 +531,12 @@ should be a constraint — and it should do all four anyway, because your skill 
 **If it didn't, that's the lesson**: check the `description` line in your `SKILL.md`,
 because a skill that doesn't trigger is a skill that doesn't exist.
 
-**Read the queries before running them.** A query returning nothing might mean clean data —
-or a wrong join.
+**Then run them:**
+
+> Run each query in sql/checks/ against stables.db and show me which ones returned rows.
+
+✅ **Acceptance:** you know which checks found violations. Open the ones that came back
+empty and check the joins — empty means clean data *or* a broken query.
 
 <details>
 <summary><strong>Spoiler — the planted problem classes. Don't open until you've looked.</strong></summary>
@@ -592,21 +549,43 @@ or a wrong join.
    retirement; a retired horse entered in a later race.
 5. **Contradictory flags** — `placed` disagreeing with `finish_position`, in both
    directions.
-
-If you found a class we didn't plant, tell us — genuinely useful.
 </details>
 
-### 5.2 — Optimise one (4 min)
+### 5.3 — Optimise one (3 min)
 
-> Explain the query plan for this. Rewrite it to avoid the full scan, and tell me
-> what index would make it cheap.
+Your orphan-foreign-key checks join two tables on a column that has no index. SQLite
+answers those by reading every row of the table — a full scan. On this database's handful
+of rows that's instant; on a table with millions of rows it's slow, and adding an index is
+usually the one-line fix.
 
-### 5.3 — The judgement call (4 min)
+`EXPLAIN QUERY PLAN` prefixed to a query prints the strategy instead of the results:
 
-For each problem: should it be a **database constraint** (the bad row can never be written)
-or a **validation query** (find bad rows already present)? Usually both, for different
-reasons — and adding a constraint to a table that already violates it fails. That
-sequencing problem is yours, not the model's.
+> Run EXPLAIN QUERY PLAN on one of the orphan-foreign-key checks in sql/checks/. Show me
+> the output, tell me which table is being scanned rather than searched, and give me the
+> CREATE INDEX that would fix it.
+
+✅ **Acceptance:** you can point at `SCAN <table>` in the output and name the index that
+turns it into a `SEARCH`.
+
+### 5.4 — Constraint or query? (3 min)
+
+Two different fixes, doing two different jobs:
+
+- A **constraint** (`UNIQUE`, `REFERENCES`, `CHECK`) makes the database reject bad rows
+  from now on. It does nothing about the rows already there.
+- A **validation query** finds the rows already there. It does nothing to stop new ones.
+
+Most problems want both — but not in either order. `CREATE UNIQUE INDEX` on a table that
+already contains duplicates fails, so it has to be: run the query, clean up what it found,
+*then* add the constraint.
+
+> For each check in sql/checks/, tell me whether the schema should enforce it as a
+> constraint too, and write the ALTER TABLE or CREATE INDEX that would do it. Don't run
+> them.
+
+**The bit Claude can't decide for you** is the cleanup in the middle: delete one of the
+duplicates, merge them, or go and ask whoever owns the data? Until you answer that, the
+constraint won't apply.
 
 **Portability note:** the exercises are SQLite, and deliberately avoid dialect-specific
 syntax. Where Oracle or BigQuery would differ materially — window function syntax, date
@@ -619,17 +598,20 @@ version-specific dialect docs.
 
 ## Come back to the toolkit — revise it (5 min) · backbone
 
-Not an exercise; a habit. **Do this even if you skip Exercises 6 and 7.** You have now used
-the toolkit in anger for a while. Go back and fix it — this is the step that turns
-Exercise 2 from a demo into something that survives contact with your real repo.
+Not an exercise; a habit. **Do this even if you skip Exercises 6 and 7.** You've had the
+toolkit running through three exercises now. Go back and fix it — this is the step that
+turns Exercise 2 from a demo into something that survives contact with your real repo.
 
 ```
-Here's what we did in the last 90 minutes. Suggest edits to
-.claude/skills/data-quality-check/SKILL.md, .claude/commands/review.md and the hook in
-.claude/settings.json based on what actually happened — things I had to say more than
-once, checks that found nothing, checks I wished existed. Propose the diffs; don't
+Run `git log --oneline` and read today's commits, then read my toolkit: .claude/skills/,
+.claude/commands/review.md, and the hooks in .claude/settings.json. Based on what the
+commits show we actually did, suggest edits — things I had to say more than once, checks
+that never fired, checks I clearly wanted and didn't have. Propose the diffs; don't
 apply them.
 ```
+
+(If you haven't `/clear`ed since Exercise 3, Claude can draw on the conversation too. The
+`git log` framing is there because most people will have.)
 
 Then decide each one yourself. Specifically:
 
@@ -645,7 +627,7 @@ Then decide each one yourself. Specifically:
 git add .claude && git commit -m "chore: revise toolkit from what the lab actually needed"
 ```
 
-> **Clock check:** it's 12:03 — go to Exercise 8. Exercises 6 and 7 are the first two
+> **Clock check:** it's 11:45 — go to Exercise 8. Exercises 6 and 7 are the first two
 > items in the extras slot and lose nothing by waiting.
 
 ---
