@@ -578,9 +578,8 @@ should be a constraint — and it should do all four anyway, because your skill 
 **If it didn't, that's the lesson**: check the `description` line in your `SKILL.md`,
 because a skill that doesn't trigger is a skill that doesn't exist.
 
-That order — constraints before queries — is exactly why the recipe was worth codifying.
-Ask for queries first and you get queries for the problems that are easy to imagine, not
-the ones that are there.
+Ask for queries before constraints and you get queries for the problems that are easy to
+imagine, not the ones that are there.
 
 **Read the queries before running them.** A query returning nothing might mean clean data —
 or a wrong join.
