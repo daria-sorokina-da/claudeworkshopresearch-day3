@@ -2,7 +2,8 @@
 """PreToolUse hook — the red line, enforced.
 
 Two jobs:
-  1. Block any write to src/algorithm/ (the off-limits algorithm module).
+  1. Block any write to src/suitability_secret_algorithm/ (the off-limits
+     suitability-scoring module).
   2. Block writes that appear to contain live credentials.
 
 Exit 2 blocks the action AND returns stderr to Claude, so it can self-correct.
@@ -17,9 +18,10 @@ import re
 import sys
 
 BLOCKED_PATHS = [
-    (re.compile(r"(^|/)src/algorithm/"),
-     "src/algorithm/ is the off-limits algorithm module. It encodes a scientific "
-     "rationale that must not be modified by a model. See EXERCISE.md, red line 1."),
+    (re.compile(r"(^|/)src/suitability_secret_algorithm/"),
+     "src/suitability_secret_algorithm/ is the off-limits race-suitability scorer. "
+     "Its weights encode a scientific rationale (see RATIONALE.md) that must not be "
+     "modified by a model. See EXERCISE.md, red line 1."),
     (re.compile(r"\.env$"), "this is a secrets file."),
     (re.compile(r"\.pem$"), "this is a key file."),
 ]

@@ -1,18 +1,19 @@
 """VALIDATION tests for the suitability scorer.
 
-Note the distinction from `test_algorithm.py`, and take it seriously:
+Note the distinction from `test_suitability_secret_algorithm.py`, and take it seriously:
 
-  * `test_algorithm.py` is a CHARACTERISATION suite. Its expected values were read off
-    the current implementation. It tells you whether behaviour changed. It cannot tell
-    you whether behaviour is CORRECT — it would pass a confidently wrong rewrite.
+  * `test_suitability_secret_algorithm.py` is a CHARACTERISATION suite. Its expected
+    values were read off the current implementation. It tells you whether behaviour
+    changed. It cannot tell you whether behaviour is CORRECT — it would pass a
+    confidently wrong rewrite.
 
   * This file is a VALIDATION suite. Every expected value below is derived from
-    src/algorithm/RATIONALE.md — an independent statement of what the right answer is.
-    These tests encode the *reasoning*, not the code.
+    src/suitability_secret_algorithm/RATIONALE.md — an independent statement of what
+    the right answer is. These tests encode the *reasoning*, not the code.
 
 That difference is the whole point of red line 1. A validation suite is what makes it
-safe to let an AI assistant change algorithm code at all: it turns a rationale that
-lives in prose into something executable.
+safe to let an AI assistant change suitability-scoring code at all: it turns a rationale
+that lives in prose into something executable.
 
 When you add a rule to RATIONALE.md, add a test here. When the two disagree, the
 rationale wins and one of them is a bug.
@@ -22,7 +23,7 @@ from datetime import date
 
 import pytest
 
-from src.algorithm import suitability_score
+from src.suitability_secret_algorithm import suitability_score
 
 BASE = dict(
     preferred_min_f=8, preferred_max_f=12, preferred_going="good",

@@ -1,13 +1,13 @@
-"""Characterisation tests for the off-limits algorithm module.
+"""Characterisation tests for the off-limits suitability module.
 
-These exist to protect src/algorithm/ — they record what it currently does so that
-any change is visible. Writing tests for that module is allowed and encouraged;
-changing the module is not.
+These exist to protect src/suitability_secret_algorithm/ — they record what it
+currently does so that any change is visible. Writing tests for that module is
+allowed and encouraged; changing the module is not.
 """
 
 from datetime import date
 
-from src.algorithm import suitability_score, rank_entries
+from src.suitability_secret_algorithm import suitability_score, rank_entries
 
 
 def test_perfect_fit_scores_high():

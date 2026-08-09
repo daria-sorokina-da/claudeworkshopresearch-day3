@@ -7,6 +7,9 @@ venv/
 .pytest_cache/
 .claude/settings.local.json
 
+# Session scratch space — plan files, notes, anything throwaway
+.temp/
+
 # Build artefacts from the pipeline exercise — regenerated, never committed
 build/
 dropbox/processed/

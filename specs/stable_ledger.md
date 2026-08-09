@@ -10,8 +10,25 @@ write tests from it, then implement.
 
 ## Purpose
 
-Parse and validate weekly feed-ledger lines as submitted by each stable, so they can
-be loaded into the database.
+A **ledger** is a written record of things that happened, in order — like a diary or a
+log book. A **feed ledger** is a weekly record of what each stable fed its horses.
+
+Every week, each stable sends in a list of lines. Each line records one feeding: which
+horse, what it was fed, how much, and who wrote the line down. This module reads that
+list, checks that each line is written correctly, and turns it into data the database
+can store.
+
+Each line names a **feed code** for what the horse was fed. A feed code is a short code
+for a type of food — for example:
+
+| Code | What it means |
+|---|---|
+| `HAY-STD` | Standard hay |
+| `MIX-HIF` | High-fibre mixed feed |
+
+This spec does not keep an official list of codes to check against. It only checks that
+a code has the right *shape* (see Field rules below), not that it is a real code a
+stable actually uses.
 
 ## Input format
 

@@ -1,12 +1,13 @@
 {
+  "plansDirectory": ".temp",
   "permissions": {
     "deny": [
       "Read(.env)",
       "Read(./.env)",
-      "Write(src/algorithm/**)",
-      "Edit(src/algorithm/**)",
-      "Write(./src/algorithm/**)",
-      "Edit(./src/algorithm/**)"
+      "Write(src/suitability_secret_algorithm/**)",
+      "Edit(src/suitability_secret_algorithm/**)",
+      "Write(./src/suitability_secret_algorithm/**)",
+      "Edit(./src/suitability_secret_algorithm/**)"
     ]
   },
   "hooks": {
@@ -16,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/guard_algorithm.py"
+            "command": "python3 .claude/hooks/guard_suitability_secret_algorithm.py"
           }
         ]
       }
