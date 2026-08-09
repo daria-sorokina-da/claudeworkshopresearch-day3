@@ -8,12 +8,11 @@ fairy-tale horse stable.
 
 ## How the lab runs
 
-**Part 0** (setup), then **eleven exercises numbered 3–13** — the slides number exercises
-across the whole workshop and 1–2 ran on Day 2. Six are marked *backbone*.
+**Part 0** (setup), then **eleven exercises numbered 1–11**. Six are marked *backbone*.
 
-The toolkit is Exercise 4 rather than a late-afternoon extra on purpose: the test hook, the
+The toolkit is Exercise 2 rather than a late-afternoon extra on purpose: the test hook, the
 `/review` command and the `deny` rules only prove themselves against real changes, and
-Exercises 5–7 are real changes that put them to work. A five-minute step after Exercise 7
+Exercises 3–5 are real changes that put them to work. A five-minute step after Exercise 5
 sends you back to revise the toolkit from what actually happened.
 
 ## What shape it is
@@ -31,7 +30,7 @@ enforced by `deny` rules in `.claude/settings.json` and by a `PreToolUse` hook, 
 by asking nicely. It stands in for any code of yours whose correctness rests on a
 rationale that isn't written in the file — matching logic, a validated method, a
 threshold from a standard. See
-[`src/suitability_secret_algorithm/README.md`](src/suitability_secret_algorithm/README.md) for why, and Exercise 4.4 of
+[`src/suitability_secret_algorithm/README.md`](src/suitability_secret_algorithm/README.md) for why, and Exercise 2.4 of
 [EXERCISE.md](EXERCISE.md) for the step that proves it works.
 
 ## Setup
@@ -47,7 +46,7 @@ pytest
 ```
 
 Then onboard the repo — run `/init` in a Claude session and **correct the draft by hand**.
-Exercise 3 of [EXERCISE.md](EXERCISE.md) walks through it and is worth the half hour: every
+Exercise 1 of [EXERCISE.md](EXERCISE.md) walks through it and is worth the half hour: every
 later prompt inherits that file.
 
 **The database is SQLite** — no install, no server. It ships inside Python as the
@@ -65,7 +64,7 @@ BigQuery would behave differently, `EXERCISE.md` says so.
 
 Perl is needed only for the conversion exercise (`perl -v` to check).
 
-**The [GitHub CLI](https://cli.github.com) is needed for Exercise 5**, the ticket exercise
+**The [GitHub CLI](https://cli.github.com) is needed for Exercise 3**, the ticket exercise
 — `gh --version` to check. Do this before the session if you can:
 
 ```bash
@@ -79,25 +78,25 @@ gh repo set-default <your-username>/claudeworkshopresearch-day3   # forks ambigu
 gh repo edit --enable-issues                                      # forks disable issues
 ```
 
-Exercise 5 has a documented web-UI fallback if `gh` won't cooperate, and no other exercise
+Exercise 3 has a documented web-UI fallback if `gh` won't cooperate, and no other exercise
 needs it.
 
 ## What's in here
 
 | Path | What it is | Exercise |
 |---|---|---|
-| `src/suitability_secret_algorithm/` | ⛔ Off limits | 4 — proving the red line |
-| `data/race_results.csv`, `data/measurements.csv` | Deliberately messy datasets | 4 — published skill · self-practice EDA |
-| *(GitHub, not the repo)* | An issue you file yourself | 5 — ticket-driven work |
-| `specs/stable_ledger.md` | A spec with no implementation | 6 — spec- and test-driven build |
-| `sql/schema.sql`, `sql/seed.sql` | Under-constrained schema, data with planted violations | 7 — SQL data-quality checks |
-| `src/stable_cli/` | CLI over the database. Contains one planted bug | 8 — off-by-one bug hunt |
-| `legacy/stable_ledger.pl` | Real-flavoured legacy Perl, plus fixtures | 9 — Perl → Python |
-| `web/` | Static yard board with repetitive JS and CSS | 10 — unfamiliar technologies |
-| `analysis/slow_aggregate.py` | Correct and needlessly slow | 11 — sub-agent chain |
-| `src/pipeline/` | Four stages, not idempotent, not atomic | 12 — pipelines |
-| `src/monitor/` | Directory watcher with the five classic bugs | 12 — monitoring |
-| `src/ml/` | A classifier that reports 1.000 accuracy and is worthless | 13 — a little ML |
+| `src/suitability_secret_algorithm/` | ⛔ Off limits | 2 — proving the red line |
+| `data/race_results.csv`, `data/measurements.csv` | Deliberately messy datasets | 2 — published skill · self-practice EDA |
+| *(GitHub, not the repo)* | An issue you file yourself | 3 — ticket-driven work |
+| `specs/stable_ledger.md` | A spec with no implementation | 4 — spec- and test-driven build |
+| `sql/schema.sql`, `sql/seed.sql` | Under-constrained schema, data with planted violations | 5 — SQL data-quality checks |
+| `src/stable_cli/` | CLI over the database. Contains one planted bug | 6 — off-by-one bug hunt |
+| `legacy/stable_ledger.pl` | Real-flavoured legacy Perl, plus fixtures | 7 — Perl → Python |
+| `web/` | Static yard board with repetitive JS and CSS | 8 — unfamiliar technologies |
+| `analysis/slow_aggregate.py` | Correct and needlessly slow | 9 — sub-agent chain |
+| `src/pipeline/` | Four stages, not idempotent, not atomic | 10 — pipelines |
+| `src/monitor/` | Directory watcher with the five classic bugs | 10 — monitoring |
+| `src/ml/` | A classifier that reports 1.000 accuracy and is worthless | 11 — a little ML |
 
 ## A note on the planted bugs
 

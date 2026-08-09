@@ -10,23 +10,23 @@
 
 ## What today covers
 
-Eleven exercises, numbered 3–13 because the slides number them across the whole
-workshop and 1–2 ran on Day 2. Nothing here depends on them.
+Eleven exercises, numbered 1–11. Two exercises ran on Day 2 under the slides' workshop-wide
+numbering; nothing here depends on them.
 
 | | Contents | |
 |---|---|---|
 | **Part 0** | Fork, clone, branch, install, pin the red lines | 15 min |
-| **Exercise 3** | Onboard and harness the repo — `/init`, a summary with its sources, diagram, `CLAUDE.md`, MCP | backbone |
-| **Exercise 4** | Build your team toolkit — skill, `/review` command, test hook, `deny` rules | backbone |
-| **Exercise 5** | Tickets — read one, fix it, comment back | backbone |
-| **Exercise 6** | Spec- and test-driven build | backbone |
-| **Exercise 7** | SQL data-quality checks | backbone |
-| **Exercise 8** | Perl → Python conversion | if time |
-| **Exercise 9** | Unfamiliar technologies — CSS/JS | if time |
-| **Exercise 10** | Orchestrate sub-agents | backbone |
-| **Exercise 11** | Pipelines and monitoring | extra |
-| **Exercise 12** | A little ML | extra |
-| **Exercise 13** | Claude Science and Cowork | extra |
+| **Exercise 1** | Onboard and harness the repo — `/init`, a summary with its sources, diagram, `CLAUDE.md`, MCP | backbone |
+| **Exercise 2** | Build your team toolkit — skill, `/review` command, test hook, `deny` rules | backbone |
+| **Exercise 3** | Tickets — read one, fix it, comment back | backbone |
+| **Exercise 4** | Spec- and test-driven build | backbone |
+| **Exercise 5** | SQL data-quality checks | backbone |
+| **Exercise 6** | Perl → Python conversion | if time |
+| **Exercise 7** | Unfamiliar technologies — CSS/JS | if time |
+| **Exercise 8** | Orchestrate sub-agents | backbone |
+| **Exercise 9** | Pipelines and monitoring | extra |
+| **Exercise 10** | A little ML | extra |
+| **Exercise 11** | Claude Science and Cowork | extra |
 
 **The order is deliberate: onboard the repo, set up the guardrails, then do real work
 with both running.** Sub-agents come after that, because they are worth very little until
@@ -41,16 +41,16 @@ Wall-clock assumes a 09:15 start — shift it to suit.
 | Time | | Minutes |
 |---|---|---|
 | 09:15 | **Part 0** — Setup and ground rules | 15 |
-| 09:30 | **Exercise 3** — Onboard and harness the repo | 30 |
-| 10:00 | **Exercise 4** — Build your team toolkit | 30 |
-| 10:30 | **Exercise 5** — Tickets | 23 |
-| 10:53 | **Exercise 6** — Spec- and test-driven build | 30 |
+| 09:30 | **Exercise 1** — Onboard and harness the repo | 30 |
+| 10:00 | **Exercise 2** — Build your team toolkit | 30 |
+| 10:30 | **Exercise 3** — Tickets | 23 |
+| 10:53 | **Exercise 4** — Spec- and test-driven build | 30 |
 | 11:23 | **Break** | 15 |
-| 11:38 | **Exercise 7** — SQL data-quality checks | 20 |
+| 11:38 | **Exercise 5** — SQL data-quality checks | 20 |
 | 11:58 | **Come back to the toolkit** — revise it | 5 |
-| 12:03 | **Exercise 10** — Orchestrate sub-agents | 25 |
+| 12:03 | **Exercise 8** — Orchestrate sub-agents | 25 |
 | 12:28 | **Wrap-up** and retrospective | 20 |
-| 12:48 | **Extras** — Exercises 8 and 9 first, then 11–13 | remaining time |
+| 12:48 | **Extras** — Exercises 6 and 7 first, then 9–11 | remaining time |
 
 ---
 
@@ -83,7 +83,7 @@ front end over the SQLite database, four subcommands:
   ran this once above; safe to re-run any time you want a clean slate.
 - `stables` — a summary per stable.
 - `week <date>` — every race in the week containing that date. This is the report you'll
-  put a ticket against in Exercise 5.
+  put a ticket against in Exercise 3.
 - `horse <id>` — every entry for one horse.
 
 ```bash
@@ -110,7 +110,7 @@ The spine of the whole workshop. Every exercise today touches at least one.
 4. **Never use `--dangerously-skip-permissions` on a real repo.**
 5. **Always read the diff before accepting it.** Confident-and-wrong is the main failure mode.
 
-Exercise 4 turns lines 1 and 3 into mechanisms. The other three stay your job.
+Exercise 2 turns lines 1 and 3 into mechanisms. The other three stay your job.
 
 ### Commit convention
 
@@ -120,19 +120,19 @@ e.g. `chore: add team toolkit`.
 Commit at every milestone. Git is the safety net that makes delegating safe; `git stash`
 and `git checkout .` are your undo button when a prompt goes sideways.
 
-**The issue number is not decoration.** Exercise 5 sets up the board that number points at.
+**The issue number is not decoration.** Exercise 3 sets up the board that number points at.
 
 See the cheatsheet for [commands and keyboard shortcuts](CHEATSHEET.md#commands-and-keyboard-shortcuts-worth-having-to-hand)
 and the [`/btw` side-note trick](CHEATSHEET.md#mid-task-side-notes).
 
 ---
 
-## Exercise 3 — Onboard and harness the repo (30 min) · backbone
+## Exercise 1 — Onboard and harness the repo (30 min) · backbone
 
 **Do this before anything else. It changes the quality of every later prompt.**
 `CLAUDE.md` loads into every session and survives `/clear`; the conversation does not.
 
-### 3.1 — Get oriented, with a reading list (7 min)
+### 1.1 — Get oriented, with a reading list (7 min)
 
 Open Claude Code (`claude`) in the repo. Generate a first draft of the context file:
 
@@ -156,7 +156,7 @@ has an address — if one bullet matters to you, you already know which file to 
 Keep pairing summaries with their sources all day; it turns a paragraph into a
 starting point.
 
-### 3.2 — Diagram the data flow from the code, not the README (5 min)
+### 1.2 — Diagram the data flow from the code, not the README (5 min)
 
 > Produce a Mermaid diagram of how data moves from the raw CSVs through to the
 > final report. Base it only on the code. Save it to diagrams/data-flow.md.
@@ -165,7 +165,7 @@ Open the file in a Markdown preview — the diagram renders. Architecture docs f
 straight from the code — and worth committing, since `diagrams/` isn't scratch space,
 it's documentation the next person benefits from too.
 
-### 3.3 — Plan mode: look before you leap (5 min)
+### 1.3 — Plan mode: look before you leap (5 min)
 
 ```
 /plan
@@ -184,7 +184,7 @@ from doing**, and it is the cheapest place to catch a wrong assumption.
 > they never get committed. See [Plan mode](CHEATSHEET.md#plan-mode) in the cheatsheet
 > for more on that setting.
 
-### 3.4 — Make the context permanent in CLAUDE.md (8 min)
+### 1.4 — Make the context permanent in CLAUDE.md (8 min)
 
 **Prove it loads** with the question any actual newcomer asks on day one:
 
@@ -209,7 +209,7 @@ session and every teammate on a fresh clone inherits it.
 git add CLAUDE.md && git commit -m "docs: repo context for the lab"
 ```
 
-### 3.5 — Wire up the database MCP (5 min)
+### 1.5 — Wire up the database MCP (5 min)
 
 MCP (Model Context Protocol) is how Claude reaches tools that aren't the filesystem or
 the shell. This repo ships a **committed `.mcp.json`** pointing a SQLite MCP server at
@@ -229,7 +229,7 @@ Then in the session:
 ```
 
 You should see `stables-db` connected. Put it to work on something you'll need in
-Exercise 7:
+Exercise 5:
 
 > Using the stables-db MCP, produce a Mermaid ER diagram of the schema — every table
 > and its foreign-key relationships. Save it to diagrams/schema.md.
@@ -237,7 +237,7 @@ Exercise 7:
 ✅ **Acceptance:** `/mcp` shows `stables-db` connected, Claude reads the schema directly
 through it instead of shelling out to inspect it, and `diagrams/schema.md` renders a
 diagram you can check against `sql/schema.sql` — another piece of architecture
-documentation earned for free, alongside the data-flow diagram from 3.2.
+documentation earned for free, alongside the data-flow diagram from 1.2.
 
 **If it doesn't start**, carry on without it. `uvx` needs `uv` installed, and MCP package
 names move around. Claude has `Bash` and can write Python, so every exercise below works
@@ -249,7 +249,7 @@ either way — the MCP is convenience, not a dependency.
 
 ---
 
-## Exercise 4 — Build your team toolkit (30 min) · backbone
+## Exercise 2 — Build your team toolkit (30 min) · backbone
 
 A fresh Claude session doesn't know your review standards, your test conventions, or
 which paths are off-limits — you'd have to state them again every time, and so would
@@ -257,17 +257,17 @@ every teammate on their own clone. A skill, a command, a hook, and a `deny` rule
 those standards in the repo itself, so they apply automatically to anyone who clones it.
 
 Build it **before** the work, not after: the hook and the command only prove themselves
-against real changes, and Exercises 5–8 are ninety minutes of real changes. By the end of
+against real changes, and Exercises 3–6 are ninety minutes of real changes. By the end of
 today the hook will have run dozens of times without you asking.
 
-### 4.1 — A skill (11 min)
+### 2.1 — A skill (11 min)
 
 A **skill** is on-demand context Claude loads *only when it's relevant* — cheaper than
 `CLAUDE.md`, which loads every single session. `CLAUDE.md` is for what's always true; a
 skill is for a recipe you follow occasionally.
 
 **Turn something you just did into something you never have to ask for again.** In
-Exercise 3.5 you asked Claude to produce a Mermaid ER diagram of the schema and save it to
+Exercise 1.5 you asked Claude to produce a Mermaid ER diagram of the schema and save it to
 `diagrams/schema.md`. Codify that recipe so next time you don't have to spell it out:
 
 ```
@@ -303,7 +303,7 @@ anything yet.
 ✅ **Acceptance:** a skill you didn't write is installed and produces something real.
 (Needs network; if the marketplace path differs, browse `/plugin`.)
 
-### 4.2 — A review slash command (7 min)
+### 2.2 — A review slash command (7 min)
 
 A slash command is a workflow *you* trigger deliberately. Rule of thumb: **if you expect
 to run the same prompt twice, codify it.** Ask Claude to create one:
@@ -322,7 +322,7 @@ Running the tests is fine; it should not modify any files.
 ✅ **Acceptance:** `/review` runs your standardised review on demand. **Run it at the end of
 every exercise from here on.**
 
-### 4.3 — A verification hook (6 min)
+### 2.3 — A verification hook (6 min)
 
 A **hook** is a command the harness runs around a tool call, whether or not Claude wants it
 to. Ask Claude to set one up:
@@ -354,11 +354,11 @@ change it just made, then ask it to revert `db.py`.
 ✅ **Acceptance:** the suite runs right after the edit, unasked, and the failure reaches
 Claude as feedback rather than reaching you as a surprise later.
 
-> In Exercise 6 you'll be deliberately red for ten minutes while the tests wait for an
+> In Exercise 4 you'll be deliberately red for ten minutes while the tests wait for an
 > implementation, so the hook will be noisy there. Narrow the matcher or comment it out
 > if it gets in the way.
 
-### 4.4 — Prove the `deny` rules — the important one (6 min)
+### 2.4 — Prove the `deny` rules — the important one (6 min)
 
 `.claude/settings.json` already denies writes to `src/suitability_secret_algorithm/`. **Try to break it —
 now, before you have any real reason to touch it.**
@@ -395,7 +395,7 @@ git add .claude && git commit -m "chore: add team toolkit — skill, review comm
 
 ---
 
-> **Exercises 5–8 are the work.** Every one of them is a task where **verification is
+> **Exercises 3–6 are the work.** Every one of them is a task where **verification is
 > cheap**: a test, a query you can check, a diff you can read. That is not a coincidence;
 > it's the criterion for where to start on your own work.
 >
@@ -405,7 +405,7 @@ git add .claude && git commit -m "chore: add team toolkit — skill, review comm
 
 ---
 
-## Exercise 5 — Tickets: read one, then fix it (23 min) · backbone
+## Exercise 3 — Tickets: read one, then fix it (23 min) · backbone
 
 The realistic case, end to end: read a ticket you didn't write, fix it red-test-first,
 review your own diff, push, and comment back on the ticket — all without ever owning it.
@@ -414,7 +414,7 @@ and the tool instead of a chat message nobody can find again. Plain GitHub Issue
 Projects board. A board is worth setting up when you have an ongoing stream of tickets to
 triage; for one ticket, it's overhead with nothing to show for it.
 
-### 5.1 — Read an existing ticket (5 min)
+### 3.1 — Read an existing ticket (5 min)
 
 Someone already filed a real bug against this repo:
 [issue #1](https://github.com/daria-sorokina-da/claudeworkshopresearch-day3/issues/1).
@@ -438,9 +438,9 @@ about to fix exactly this bug, so keep the acceptance criteria in mind.
 > your own fork, under your own GitHub account. Nothing you do lands on
 > anyone else's repo, so break it freely.
 
-### 5.2 — Fix it, red test first (12 min)
+### 3.2 — Fix it, red test first (12 min)
 
-**Same session as 5.1 — don't `/clear`.** Claude already restated the acceptance criteria
+**Same session as 3.1 — don't `/clear`.** Claude already restated the acceptance criteria
 and named the file. Now it executes that plan instead of starting cold. Stay on
 `stables-workshop`.
 
@@ -468,7 +468,7 @@ and named the file. Now it executes that plan instead of starting cold. Stay on
 
 **Commit it** — test and fix together.
 
-### 5.3 — Review, push, and comment on the ticket (6 min)
+### 3.3 — Review, push, and comment on the ticket (6 min)
 
 `/review`, then push:
 
@@ -493,11 +493,11 @@ existing. Skip it and move on.
 
 ---
 
-## Exercise 6 — Spec- and test-driven build (30 min) · backbone
+## Exercise 4 — Spec- and test-driven build (30 min) · backbone
 
 Read [specs/stable_ledger.md](specs/stable_ledger.md).
 
-### 6.1 — Argue with the spec first (5 min)
+### 4.1 — Argue with the spec first (5 min)
 
 The spec contains **at least one genuine ambiguity** (it's flagged in the worked example).
 Find it and decide what the answer should be. Edit the spec.
@@ -505,17 +505,17 @@ Find it and decide what the answer should be. Edit the spec.
 An ambiguous spec produces confidently wrong code, and no amount of good prompting fixes
 that. This step is not a warm-up.
 
-### 6.2 — Tests first, from the spec (10 min)
+### 4.2 — Tests first, from the spec (10 min)
 
 > Read specs/stable_ledger.md. Write pytest tests in tests/test_feed_ledger.py
 > covering every stated behaviour including the error cases. Do not write the
 > implementation. Where the spec is ambiguous, write the test you believe is right
 > and add a comment flagging the ambiguity.
 
-Your test hook from 4.3 will now report a red suite on every edit — correctly, because
+Your test hook from 2.3 will now report a red suite on every edit — correctly, because
 there is no implementation yet. **This is the one place today where red is the goal.**
 
-### 6.3 — Review the tests properly (10 min)
+### 4.3 — Review the tests properly (10 min)
 
 **This is the actual work of the exercise.** For each test ask: does this test the *spec*,
 or does it test what was easy to test? Look specifically for:
@@ -529,7 +529,7 @@ or does it test what was easy to test? Look specifically for:
 tests the wrong thing, that's on you to correct here — not something to leave for Claude
 to discover and second-guess mid-implementation.
 
-### 6.4 — Then implement (5 min)
+### 4.4 — Then implement (5 min)
 
 > Now implement feed_ledger.py to pass these tests and match the spec.
 
@@ -541,13 +541,13 @@ Watch red → green. Then `/review`, read the diff, commit.
 
 ---
 
-## Exercise 7 — SQL data-quality checks (20 min) · backbone
+## Exercise 5 — SQL data-quality checks (20 min) · backbone
 
 The same mechanics you'd use on any real relational dataset with integrity problems, just
-a different domain. The `stables-db` MCP from 3.5 does some of the work for you; the rest
+a different domain. The `stables-db` MCP from 1.5 does some of the work for you; the rest
 is a recipe worth codifying before you run it, not after.
 
-### 7.1 — Write the recipe, then use it (12 min)
+### 5.1 — Write the recipe, then use it (12 min)
 
 **Write the skill first.** You're about to write SQL data-quality checks on this
 database — the same kind of integrity checking you'd run on any real relational dataset
@@ -601,12 +601,12 @@ or a wrong join.
 If you found a class we didn't plant, tell us — genuinely useful.
 </details>
 
-### 7.2 — Optimise one (4 min)
+### 5.2 — Optimise one (4 min)
 
 > Explain the query plan for this. Rewrite it to avoid the full scan, and tell me
 > what index would make it cheap.
 
-### 7.3 — The judgement call (4 min)
+### 5.3 — The judgement call (4 min)
 
 For each problem: should it be a **database constraint** (the bad row can never be written)
 or a **validation query** (find bad rows already present)? Usually both, for different
@@ -624,9 +624,9 @@ version-specific dialect docs.
 
 ## Come back to the toolkit — revise it (5 min) · backbone
 
-Not an exercise; a habit. **Do this even if you skip Exercises 8 and 9.** You have now used
+Not an exercise; a habit. **Do this even if you skip Exercises 6 and 7.** You have now used
 the toolkit in anger for a while. Go back and fix it — this is the step that turns
-Exercise 4 from a demo into something that survives contact with your real repo.
+Exercise 2 from a demo into something that survives contact with your real repo.
 
 ```
 Here's what we did in the last 90 minutes. Suggest edits to
@@ -640,9 +640,9 @@ Then decide each one yourself. Specifically:
 
 - **Did `/review` find anything real?** If it produced nothing all afternoon, its lines are
   too vague. Add one you'd have caught by hand.
-- **Did the hook get in your way in Exercise 6?** Narrow the matcher, or make it run only
+- **Did the hook get in your way in Exercise 4?** Narrow the matcher, or make it run only
   the affected test file. A guardrail people disable is worse than a narrower one they keep.
-- **Did the skill fire in Exercise 7?** If not, the `description` is the problem, not the
+- **Did the skill fire in Exercise 5?** If not, the `description` is the problem, not the
   recipe.
 - **Anything you said twice today** belongs in one of these files.
 
@@ -650,12 +650,12 @@ Then decide each one yourself. Specifically:
 git add .claude && git commit -m "chore: revise toolkit from what the lab actually needed"
 ```
 
-> **Clock check:** it's 12:03 — go to Exercise 10. Exercises 8 and 9 are the first two
+> **Clock check:** it's 12:03 — go to Exercise 8. Exercises 6 and 7 are the first two
 > items in the extras slot and lose nothing by waiting.
 
 ---
 
-## Exercise 8 — Perl → Python conversion (30 min) · if time
+## Exercise 6 — Perl → Python conversion (30 min) · if time
 
 Your named legacy-migration case. The file is `legacy/stable_ledger.pl` — 2009 vintage,
 edited by six people, comments intermittently updated.
@@ -665,7 +665,7 @@ perl legacy/stable_ledger.pl legacy/fixtures/ledger_week_01.txt
 perl legacy/stable_ledger.pl legacy/fixtures/ledger_week_02.txt
 ```
 
-### 8.1 — Understand it (10 min)
+### 6.1 — Understand it (10 min)
 
 > Explain what this script does, section by section. Identify anything relying on
 > Perl-specific behaviour that won't translate directly to Python.
@@ -674,7 +674,7 @@ That last clause is where the value is: implicit `$_`, the aliasing `for` loop t
 `@f` in place, list-vs-scalar context, regex flag differences, string-vs-numeric comparison,
 `sort` defaulting to string order.
 
-### 8.2 — Characterise the current behaviour (5 min)
+### 6.2 — Characterise the current behaviour (5 min)
 
 **This is the legitimate use of source-derived tests.** The Perl script *is* the
 specification here, bugs included, because "same output" is the requirement.
@@ -682,25 +682,25 @@ specification here, bugs included, because "same output" is the requirement.
 > Run the Perl script against both fixtures and capture the exact output. Write those
 > as expected-output fixtures we can use to verify the port.
 
-### 8.3 — Port it (10 min)
+### 6.3 — Port it (10 min)
 
 > Port this to legacy/stable_ledger.py. Idiomatic Python, not transliterated Perl.
 > Identical output for both fixtures. Flag anywhere you had to make a judgement call.
 
-### 8.4 — Verify, then separate the fix (5 min)
+### 6.4 — Verify, then separate the fix (5 min)
 
 **Actually run both and diff the output.** Don't take its word.
 
 Then: the Perl has at least one genuine oddity. Look at the `TOTAL` row against the
 `ENTRIES` column header, and read the `STB-118` comment. (Unrelated to the ticket you
-wrote in Exercise 5 — this one is a genuine 2009 artefact, never resolved.)
+wrote in Exercise 3 — this one is a genuine 2009 artefact, never resolved.)
 
 **Port it faithfully first. Fix it as a separate commit.** Never mix "port" and "improve" —
 if you do, and something breaks, you cannot tell which change did it.
 
 ---
 
-## Exercise 9 — Unfamiliar technologies: CSS/JS (25 min) · if time
+## Exercise 7 — Unfamiliar technologies: CSS/JS (25 min) · if time
 
 The concrete pain you named. Open `web/index.html` in a browser — it works.
 
@@ -740,7 +740,7 @@ different button label ("Hide list" rather than "Hide horses").
 
 ---
 
-## Exercise 10 — Orchestrate sub-agents (25 min) · backbone
+## Exercise 8 — Orchestrate sub-agents (25 min) · backbone
 
 A **sub-agent** is an independent work stream with its own context window and its own
 scoped tools — which is exactly why it is not the same as asking one session to do three
@@ -748,7 +748,7 @@ things. They come last because they inherit everything you've built: your `CLAUD
 skill, your `deny` rules. An agent on an unharnessed repo is just a faster way to make a
 mess.
 
-### 10.1 — Three reviewers in parallel (15 min)
+### 8.1 — Three reviewers in parallel (15 min)
 
 Review one change from three angles, each with its own context so they can't influence each
 other. Ask Claude to set them up:
@@ -772,7 +772,7 @@ Then:
 contaminate each other. A single agent that has just concluded the code is correct is
 measurably softer on its own performance critique. **The disagreements are the signal.**
 
-**Compare it with `/review` from 4.2** on the same diff. The command is one deterministic
+**Compare it with `/review` from 2.2** on the same diff. The command is one deterministic
 pass you can read and edit; the agents are three independent passes you can't fully predict.
 Different tools — the command for what you always want checked, the agents for what you
 haven't thought of.
@@ -780,7 +780,7 @@ haven't thought of.
 Three agents is roughly three times the tokens. `/cost` shows what the session has spent,
 and `/model` switches mid-session.
 
-### 10.2 — A sequential chain (10 min · optional)
+### 8.2 — A sequential chain (10 min · optional)
 
 Parallel is right when the tasks are independent. When each step needs the previous one's
 *output*, you want a chain. `analysis/slow_aggregate.py` is correct and needlessly slow —
@@ -848,13 +848,13 @@ would see.
 
 ## Extras — in this order
 
-You've done the core. **Start with whichever of Exercise 8 (Perl → Python) and Exercise 9
+You've done the core. **Start with whichever of Exercise 6 (Perl → Python) and Exercise 7
 (CSS/JS) you skipped** — they're backbone-quality material that only lost out to the clock.
-Then Exercises 11–13 below; none depends on the others.
+Then Exercises 9–11 below; none depends on the others.
 
 ---
 
-## Exercise 11 — Pipelines and monitoring (25 min) · extra
+## Exercise 9 — Pipelines and monitoring (25 min) · extra
 
 ### The pipeline
 
@@ -910,7 +910,7 @@ you recognise it, not replacing your orchestrator.
 
 ---
 
-## Exercise 12 — A little ML (25 min) · extra
+## Exercise 10 — A little ML (25 min) · extra
 
 ```bash
 python -m src.ml.train_placement
@@ -919,14 +919,14 @@ python -m src.ml.train_placement
 **Accuracy: 1.000.** Nothing is that good. This exercise is not about building a better
 model — it's about interrogating a number.
 
-### 12.1 — The blatant leak
+### 10.1 — The blatant leak
 
 > List every feature this model uses and state, for each, whether its value would
 > have been known *before* the race was run. Flag anything that wouldn't.
 
 Fix it. Accuracy drops to something plausible. **Now the real work starts.**
 
-### 12.2 — The metric is wrong
+### 10.2 — The metric is wrong
 
 > What fraction of entries are placed? Given that base rate, what accuracy would a
 > model that always predicts "not placed" achieve? Show the confusion matrix,
@@ -935,14 +935,14 @@ Fix it. Accuracy drops to something plausible. **Now the real work starts.**
 Accuracy on an imbalanced problem is the number you'll be handed and the one that means
 least.
 
-### 12.3 — The split is wrong
+### 10.3 — The split is wrong
 
 `train_test_split` is random over *rows*. Multiple entries share a race.
 
 > Entries from the same race can land in both train and test. Why is that a problem
 > here, and what splitting strategy fixes it?
 
-### 12.4 — It isn't even reproducible
+### 10.4 — It isn't even reproducible
 
 Run it twice. Different number. No seed on the split.
 
@@ -950,7 +950,7 @@ Run it twice. Different number. No seed on the split.
 
 **That is red line 2 in practice** — reproducibility lives in the code.
 
-### 12.5 — Make it attack itself
+### 10.5 — Make it attack itself
 
 > Give me the three strongest reasons this accuracy figure might still be misleading,
 > and how to test each.
@@ -959,7 +959,7 @@ It's good at this when asked, but won't do it unprompted.
 
 ---
 
-## Exercise 13 — Claude Science and Cowork (30 min) · extra, if access allows
+## Exercise 11 — Claude Science and Cowork (30 min) · extra, if access allows
 
 ### Cowork — the quick path
 
@@ -974,7 +974,7 @@ It's good at this when asked, but won't do it unprompted.
 - Produce one figure.
 - **Open the artifact**: the code, the environment, the description, the message history.
   That is the deliverable, not the picture.
-- **Run the reviewer agent over the flawed classifier** from Exercise 12. Watching it flag
+- **Run the reviewer agent over the flawed classifier** from Exercise 10. Watching it flag
   an untraceable number is far more persuasive than watching it approve good work.
 - Try session forking: same data, two approaches, compared.
 
@@ -987,7 +987,7 @@ It's good at this when asked, but won't do it unprompted.
   provider. Two minutes, and it makes "the harness is what matters" concrete.
 - **CodeGraph** — index this repo, ask a structural question with and without it, compare
   tokens and tool calls.
-- **`analysis/slow_aggregate.py` by hand.** If you ran the agent chain in 11.2, do it
+- **`analysis/slow_aggregate.py` by hand.** If you ran the agent chain in 8.2, do it
   yourself now and compare: same hotspot, same fix?
   ```bash
   python -m cProfile -s cumtime analysis/slow_aggregate.py | head -25
