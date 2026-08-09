@@ -8,7 +8,8 @@ fairy-tale horse stable.
 
 ## How the lab runs
 
-**Part 0** (setup), then **eleven exercises numbered 1–11**. Six are marked *backbone*.
+**Part 0** (setup), then **eight exercises**. Six are marked *backbone*; the last two run
+if there's time.
 
 The toolkit is Exercise 2 rather than a late-afternoon extra on purpose: the test hook, the
 `/review` command and the `deny` rules only prove themselves against real changes, and
@@ -93,9 +94,9 @@ needs it.
 | `sql/schema.sql`, `sql/seed.sql` | Under-constrained schema, data with planted violations | 6 — SQL data-quality checks |
 | `legacy/stable_ledger.pl` | Real-flavoured legacy Perl, plus fixtures | 7 — Perl → Python |
 | `web/` | Static yard board with repetitive JS and CSS | 8 — unfamiliar technologies |
-| `src/pipeline/` | Four stages, not idempotent, not atomic | 9 — pipelines |
-| `src/monitor/` | Directory watcher with the five classic bugs | 9 — monitoring |
-| `src/ml/` | A classifier that reports 1.000 accuracy and is worthless | 10 — a little ML |
+| `src/pipeline/` | Four stages, not idempotent, not atomic | — self-study |
+| `src/monitor/` | Directory watcher with the five classic bugs | — self-study |
+| `src/ml/` | A classifier that reports 1.000 accuracy and is worthless | — self-study |
 
 ## A note on the planted bugs
 

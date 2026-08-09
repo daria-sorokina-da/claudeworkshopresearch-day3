@@ -72,8 +72,8 @@ while ( my $line = <$fh> ) {
     }
     my $kg = $amount * $UNITS{$unit};
 
-    # NOTE: sorts by stable, but we key on registration - see ticket STB-118,
-    # never resolved. Behaviour retained deliberately.
+    # NOTE: sorts by stable, but we key on registration.
+    # Behaviour retained deliberately.
     $TOTALS{$reg} += $kg;
     $COUNTS{$reg}++;
 }
@@ -86,6 +86,8 @@ foreach my $reg ( sort keys %TOTALS ) {
 
 my $grand = 0;
 $grand += $_ for values %TOTALS;
+# NOTE: ENTRIES on this row is the horse count, not the sum of the column
+# above it - see issue #2, never resolved. Downstream reads it as-is.
 printf "%-10s %10.3f %8d\n", 'TOTAL', $grand, scalar( keys %TOTALS );
 
 if (@ERRORS) {

@@ -10,12 +10,12 @@
 
 ## What today covers
 
-Eleven exercises, numbered 1–11. Two exercises ran on Day 2 under the slides' workshop-wide
-numbering; nothing here depends on them.
+Eight exercises. Two more ran on Day 2 under the slides' workshop-wide numbering; nothing
+here depends on them.
 
 | | Contents | |
 |---|---|---|
-| [**Part 0**](#part-0--setup-and-ground-rules-15-min) | Fork, clone, branch, install, pin the red lines | 15 min |
+| [**Part 0**](#part-0--setup-and-ground-rules-15-min) | Fork, clone, branch, install, ground rules | 15 min |
 | [**Exercise 1**](#exercise-1--onboard-and-harness-the-repo-12-min--backbone) | Onboard and harness the repo — `/init`, a summary with its sources, `CLAUDE.md`, MCP | backbone |
 | [**Exercise 2**](#exercise-2--build-your-team-toolkit-30-min--backbone) | Build your team toolkit — skill, `/review` command, test hook, `deny` rules | backbone |
 | [**Exercise 3**](#exercise-3--tickets-read-one-then-fix-it-23-min--backbone) | Tickets — read one, fix it, comment back | backbone |
@@ -23,33 +23,11 @@ numbering; nothing here depends on them.
 | [**Exercise 5**](#exercise-5--orchestrate-sub-agents-25-min--backbone) | Orchestrate sub-agents | backbone |
 | [**Exercise 6**](#exercise-6--sql-data-quality-checks-20-min--backbone) | SQL data-quality checks | backbone |
 | [**Exercise 7**](#exercise-7--perl--python-conversion-30-min--if-time) | Perl → Python conversion | if time |
-| [**Exercise 8**](#exercise-8--unfamiliar-technologies-cssjs-25-min--if-time) | Unfamiliar technologies — CSS/JS | if time |
-| [**Exercise 9**](#exercise-9--pipelines-and-monitoring-25-min--extra) | Pipelines and monitoring | extra |
-| [**Exercise 10**](#exercise-10--a-little-ml-25-min--extra) | A little ML | extra |
-| [**Exercise 11**](#exercise-11--claude-science-and-cowork-30-min--extra-if-access-allows) | Claude Science and Cowork | extra |
+| [**Exercise 8**](#exercise-8--unfamiliar-technologies-cssjs-28-min--if-time) | Unfamiliar technologies — CSS/JS | if time |
 
 **The order is deliberate: onboard the repo, set up the guardrails, then do real work
 with both running.** Sub-agents come after that, because they are worth very little until
 there is a toolkit for them to inherit.
-
----
-
-## Timeline
-
-Wall-clock assumes a 09:15 start — shift it to suit. Breaks aren't scheduled; we'll call
-them as we go, which pushes everything after by however long we take.
-
-| Time | | Minutes |
-|---|---|---|
-| 09:15 | **Part 0** — Setup and ground rules | 15 |
-| 09:30 | **Exercise 1** — Onboard and harness the repo | 12 |
-| 09:42 | **Exercise 2** — Build your team toolkit | 30 |
-| 10:12 | **Exercise 3** — Tickets | 23 |
-| 10:35 | **Exercise 4** — Spec- and test-driven build | 30 |
-| 11:05 | **Exercise 5** — Orchestrate sub-agents | 25 |
-| 11:30 | **Exercise 6** — SQL data-quality checks | 20 |
-| 11:50 | **Wrap-up** and retrospective | 20 |
-| 12:10 | **Extras** — Exercises 7 and 8 first, then 9–11 | remaining time |
 
 ---
 
@@ -93,23 +71,9 @@ python -m src.stable_cli.cli horse 1
 
 ### The five red lines
 
-The spine of the whole workshop. Every exercise today touches at least one.
-
-1. **Never let it modify code where a plausible-looking diff isn't the same as a correct
-   one** — where you can't tell right from wrong just by reading the change, because the
-   correctness depends on something outside the file: a threshold set by a published
-   standard, a matching algorithm validated against real data, a method someone signed
-   off on. Here, that's `src/suitability_secret_algorithm/` — a horse race-suitability scorer whose
-   weights (distance fit, going fit, recent form, a fitness penalty) each encode a
-   specific clinical or scientific judgement, defended line-by-line in
-   `src/suitability_secret_algorithm/RATIONALE.md`.
-2. **Never trust an unchecked statistic** — keep the code as well as the number.
-3. **Never paste secrets or sensitive data into a prompt.** Anything you put in context
-   has left your environment, whatever the data policy says.
-4. **Never use `--dangerously-skip-permissions` on a real repo.**
-5. **Always read the diff before accepting it.** Confident-and-wrong is the main failure mode.
-
-Exercise 2 turns lines 1 and 3 into mechanisms. The other three stay your job.
+Read them in [README.md](README.md#the-five-red-lines) — every exercise today touches at
+least one, and later steps refer to them by number. Exercise 2 turns lines 1 and 3 into
+mechanisms; the other three stay your job.
 
 ### Commit convention
 
@@ -732,251 +696,103 @@ specification here, bugs included, because "same output" is the requirement.
 
 **Actually run both and diff the output.** Don't take its word.
 
-Then: the Perl has at least one genuine oddity. Look at the `TOTAL` row against the
-`ENTRIES` column header, and read the `STB-118` comment. (Unrelated to the ticket you
-wrote in Exercise 3 — this one is a genuine 2009 artefact, never resolved.)
+Then: the Perl has a known bug nobody ever fixed —
+[issue #2](https://github.com/daria-sorokina-da/claudeworkshopresearch-day3/issues/2).
+Run it and look at the `TOTAL` row against the `ENTRIES` column header; the comment at that
+line points at the ticket. Nothing to do with issue #1 from Exercise 3.
+
+While you're in there, read the comment above `$TOTALS{$reg} += $kg;` and check it against
+what the code does. Inherited comments are claims, not documentation.
 
 **Port it faithfully first. Fix it as a separate commit.** Never mix "port" and "improve" —
 if you do, and something breaks, you cannot tell which change did it.
 
 ---
 
-## Exercise 8 — Unfamiliar technologies: CSS/JS (25 min) · if time
+## Exercise 8 — Unfamiliar technologies: CSS/JS (28 min) · if time
 
 The concrete pain you named. Open `web/index.html` in a browser — it works.
 
-Four near-identical blocks in `app.js`, four near-identical rules in `styles.css`. The task
-is to extract the pattern **without changing behaviour**.
+You've inherited a working front end in a language you don't write. **Don't read `app.js`
+yet** — the first job is finding out what's wrong with it without being told.
 
-**Run the whole sequence. Don't skip to step 6.**
+### 8.1 — Set up Context7 (3 min)
 
-1. **Explain it back:**
-   > Walk me through web/app.js. Identify the repeated pattern and exactly what
-   > varies between the repetitions.
-2. **Pull current docs** — Context7. Your model's default assumptions about any JS library
-   are probably a version behind.
-3. **Whole-repo model** — what calls this, what shares the pattern.
-4. **Diagram it.** If the diagram is wrong you've caught the misunderstanding for free.
-5. **Persist it** to `CLAUDE.md`.
-6. **Now the scoped change**, plan mode:
+Step 3 below needs it. Context7 serves current, version-specific library documentation —
+the gap your model's training data can't fill on its own. It installs as a plugin:
+
+```
+/plugin marketplace add upstash/context7
+/plugin install context7@context7-marketplace
+```
+
+Then check it connected — restart Claude Code first if it doesn't show up:
+
+```
+/mcp
+```
+
+✅ **Acceptance:** `/mcp` lists `context7`.
+
+**No API key needed.** Unauthenticated requests go through an anonymous tier with lower
+rate limits, which is ample for one exercise. If you do hit a limit, a free key from
+[context7.com/dashboard](https://context7.com/dashboard) exported as `CONTEXT7_API_KEY`
+raises it.
+
+**If it won't install, carry on to step 4** — nothing else in the exercise depends on it.
+
+### 8.2 — Find the problem, then fix it (25 min)
+
+**Run the whole sequence. Don't skip to step 7.**
+
+1. **Let it find the problem.** Say nothing about what you think is wrong:
+   > Review web/app.js and web/styles.css. What would you change, and why? Rank your
+   > answers by what would hurt most as this page grows. Change nothing yet.
+
+   ✅ **Acceptance:** duplication is at or near the top of its list, and it says how many
+   times the pattern repeats. If it leads with naming or formatting instead, push back
+   once — *"what's the structural problem?"* — and watch what a sharper question buys you.
+2. **Pin down exactly what varies**, because that's what decides whether one function can
+   replace all of them:
+   > For each repetition of that pattern, list precisely what differs between them —
+   > every value, every string, every behaviour. Miss nothing.
+3. **Pull current docs** — this file is written in an old style (`var`, index loops,
+   `innerHTML`), so ask for the current idiom rather than trusting training data:
+   > Use Context7 to check the current recommended DOM practice for what app.js does:
+   > selecting elements, attaching listeners, and building list items. Tell me which
+   > patterns in this file are outdated and what replaced them.
+4. **Whole-repo model** — what this is wired to:
+   > What else depends on web/app.js? List every id and class it relies on, and where
+   > each one is defined in index.html and styles.css.
+5. **Diagram it.** If the diagram is wrong you've caught the misunderstanding for free:
+   > Diagram one stable block end to end — button click through to the rendered list,
+   > including the show/hide toggle state. Save it to diagrams/yard-board.md.
+6. **Persist it** to `CLAUDE.md`:
+   > Add a short section to CLAUDE.md describing how web/ is wired: the id naming
+   > convention linking index.html to app.js, and anything you found that doesn't
+   > follow the shared pattern.
+7. **Now the scoped change**, plan mode:
    > Extract the repeated pattern in app.js into a single reusable function. Change
-   > behaviour nowhere. Show me the diff before applying.
-7. **Verify visually.** Open the page and click all four buttons. CSS/JS needs eyes, not
-   just a green test — and note that your test hook is silent here, because there is no
-   test that covers this. **A guardrail only guards what it can see.**
+   > behaviour nowhere — including everything you listed in step 2. Show me the diff
+   > before applying.
+8. **Verify visually.** Open the page and click every button:
+   > List every behaviour I should check by hand in the browser to confirm the refactor
+   > changed nothing — including the differences you found in step 2.
+
+   CSS/JS needs eyes, not just a green test — and note that your test hook is silent
+   here, because there is no test that covers this. **A guardrail only guards what it
+   can see.**
 
 ### ⚠ The trap
 
-**Two of the four blocks behave differently from the other two.** A naive extraction
-silently changes behaviour and no test will tell you. Find both differences before you
-refactor — and if Claude's extraction loses them, that's the most valuable thing that
-happens today.
+**The repetitions are not actually identical.** A naive extraction silently changes
+behaviour and no test will tell you — step 2 is what catches it. If Claude's extraction
+drops a difference, that's the most valuable thing that happens today.
 
 <details>
-<summary><strong>Spoiler</strong></summary>
+<summary><strong>Spoiler — how many differ, and how</strong></summary>
 
-Ashcombe sorts its list; the others don't. Fairwater uppercases its names and uses a
-different button label ("Hide list" rather than "Hide horses").
+Two of the four blocks deviate. Ashcombe sorts its list; the others don't. Fairwater
+uppercases its names and uses a different button label ("Hide list" rather than
+"Hide horses").
 </details>
-
----
-
-## Wrap-up (20 min)
-
-Covering today, and any earlier sessions you attended.
-
-1. **What worked?** Which prompt, technique or guardrail will you use on Monday?
-2. **What didn't?** Where did it waste your time or produce something confidently wrong?
-   **These are the more useful answers.**
-3. **What should be team-wide rather than personal?** Which toolkit files belong in your
-   real repos — and which of your revisions would you have made on day one next time?
-
-Before you stop: commit any loose work, run `/cost` to see what the whole session spent,
-and skim `git log --oneline` — that milestone-by-milestone history is what a reviewer
-would see.
-
-### Adoption guidance
-
-- Set up `CLAUDE.md`, a review command, a test hook, and `deny` rules before starting
-  work on a real repo, not after.
-- Revise the toolkit once you've used it — you won't get it right cold.
-- Start with code that has tests, SQL you can check, conversions you can diff. Not the
-  suitability scorer. Not an unchecked statistic.
-- Default to the cheap surface; escalate to Claude Science when you need auditability or
-  the data can't move.
-- Keep the red lines written down in the repo, not remembered from a workshop.
-
-### Resources
-
-[Further reading](CHEATSHEET.md#further-reading), plus the
-[commands](CHEATSHEET.md#commands-and-keyboard-shortcuts-worth-having-to-hand) and
-[MCP](CHEATSHEET.md#mcp-configuration-patterns) reference, are in CHEATSHEET.md.
-
----
-
-## Extras — in this order
-
-You've done the core. **Start with whichever of Exercise 7 (Perl → Python) and Exercise 8
-(CSS/JS) you skipped** — they're backbone-quality material that only lost out to the clock.
-Then Exercises 9–11 below; none depends on the others.
-
----
-
-## Exercise 9 — Pipelines and monitoring (25 min) · extra
-
-### The pipeline
-
-```bash
-rm -rf build
-python -m src.pipeline.run
-python -m src.pipeline.run     # run it a second time
-cat build/04_report.txt
-```
-
-**The report is now wrong and does not say so.** Work out why before reading the code.
-
-Then a mid-stage failure:
-
-```bash
-rm -rf build
-python -m src.pipeline.stage1_ingest && python -m src.pipeline.stage2_clean
-FAIL_AT_ROW=200 python -m src.pipeline.stage3_analyse
-ls -la build/
-```
-
-**Fix both properties. Make it state its approach first:**
-
-> Stage 3 appends to its output, so re-running double-counts, and it writes
-> incrementally so a mid-stage failure leaves a partial file that looks complete.
-> Explain how you'd make it idempotent and atomic before writing any code.
-
-There are several approaches (truncate-on-open, write-then-rename, a manifest of completed
-stages) and they are not equally good. Choose deliberately.
-
-**Also look at `stage2_clean.py`** — it silently assumes unknown units are kilograms, and
-that assumption appears nowhere the caller can see. Find it and decide what should happen
-instead.
-
-### The monitor
-
-```bash
-mkdir -p dropbox/incoming
-python -m src.monitor.watch_dropbox      # then, in another shell:
-cp data/measurements.csv dropbox/incoming/
-```
-
-Five deliberate bugs, all classics. The docstring lists them. The interesting one:
-
-> How would you detect that a file is completely written before processing it?
-> Give me three approaches and their failure modes.
-
-Then fix them. Restart-safety and the dead-letter path are the two that matter in
-production.
-
-**Out of scope:** Nextflow. Seqera Co-Scientist owns that. We're teaching the pattern so
-you recognise it, not replacing your orchestrator.
-
----
-
-## Exercise 10 — A little ML (25 min) · extra
-
-```bash
-python -m src.ml.train_placement
-```
-
-**Accuracy: 1.000.** Nothing is that good. This exercise is not about building a better
-model — it's about interrogating a number.
-
-### 10.1 — The blatant leak
-
-> List every feature this model uses and state, for each, whether its value would
-> have been known *before* the race was run. Flag anything that wouldn't.
-
-Fix it. Accuracy drops to something plausible. **Now the real work starts.**
-
-### 10.2 — The metric is wrong
-
-> What fraction of entries are placed? Given that base rate, what accuracy would a
-> model that always predicts "not placed" achieve? Show the confusion matrix,
-> precision, recall and F1.
-
-Accuracy on an imbalanced problem is the number you'll be handed and the one that means
-least.
-
-### 10.3 — The split is wrong
-
-`train_test_split` is random over *rows*. Multiple entries share a race.
-
-> Entries from the same race can land in both train and test. Why is that a problem
-> here, and what splitting strategy fixes it?
-
-### 10.4 — It isn't even reproducible
-
-Run it twice. Different number. No seed on the split.
-
-> Pin every source of randomness so this script gives the same answer twice.
-
-**That is red line 2 in practice** — reproducibility lives in the code.
-
-### 10.5 — Make it attack itself
-
-> Give me the three strongest reasons this accuracy figure might still be misleading,
-> and how to test each.
-
-It's good at this when asked, but won't do it unprompted.
-
----
-
-## Exercise 11 — Claude Science and Cowork (30 min) · extra, if access allows
-
-### Cowork — the quick path
-
-- Point it at `data/`. Ask for a one-page summary of what's in there.
-- Ask a question that needs a chart. Get the chart.
-- **Then: "save the script you used to `analysis/`."** Watch it write the file. That habit
-  is the entire point — otherwise the code sits in a scratch cache and vanishes.
-
-### Claude Science — one analysis end to end
-
-- Run against the local data. **Note that the data does not move.**
-- Produce one figure.
-- **Open the artifact**: the code, the environment, the description, the message history.
-  That is the deliverable, not the picture.
-- **Run the reviewer agent over the flawed classifier** from Exercise 10. Watching it flag
-  an untraceable number is far more persuasive than watching it approve good work.
-- Try session forking: same data, two approaches, compared.
-
-
----
-
-## Self-practice — beyond the fourteen
-
-- **Provider switching** — point Claude Code at a local Ollama model, or an OpenRouter
-  provider. Two minutes, and it makes "the harness is what matters" concrete.
-- **CodeGraph** — index this repo, ask a structural question with and without it, compare
-  tokens and tool calls.
-- **`analysis/slow_aggregate.py` by hand.** If you ran the agent chain in 5.2, do it
-  yourself now and compare: same hotspot, same fix?
-  ```bash
-  python -m cProfile -s cumtime analysis/slow_aggregate.py | head -25
-  ```
-- **EDA on the messy datasets** — `data/race_results.csv` and `data/measurements.csv` are
-  deliberately dirty: missing values, inconsistent casing, a comma decimal, a unit suffix in
-  a numeric column, an impossible date, an order-of-magnitude outlier, duplicate rows.
-  Profile before cleaning, decide each cleaning step yourself, then plot — and commit the
-  script alongside the figures. Worth 30 minutes.
-  > Profile data/race_results.csv: row count, dtypes, null counts per column,
-  > cardinality, and anything that looks like a data-entry error. Don't clean it yet —
-  > just tell me what's there.
-
-  Then, for each cleaning step it proposes: how many rows does it affect, what assumption
-  does it encode, and what goes wrong if that assumption is false? The `58,4` value is the
-  one to dwell on — coerce it wrong and you get `584`, plausible enough to survive review
-  and wrong by a factor of ten.
-- **A `/release`-style checklist command.** `.claude/commands/ready.md`: tests pass, no
-  stray `print()` in `src/`, no open TODO/FIXME, `CLAUDE.md` still accurate.
-- **Bundle your toolkit** (skill + command + hook + agents) into an installable plugin and
-  have a colleague install it on a fresh clone. The onboarding test: *"Orient me in this
-  repo and help me pick up the first ticket."*
-- **Go deeper on any earlier exercise** — most have more in them than the time allowed.
-- **Try it on your own repo** — with red lines and `deny` rules in place *first*.
