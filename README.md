@@ -12,8 +12,7 @@ fairy-tale horse stable.
 
 The toolkit is Exercise 2 rather than a late-afternoon extra on purpose: the test hook, the
 `/review` command and the `deny` rules only prove themselves against real changes, and
-Exercises 3–5 are real changes that put them to work. A five-minute step after Exercise 5
-sends you back to revise the toolkit from what actually happened.
+Exercises 3–5 are real changes that put them to work.
 
 ## What shape it is
 
@@ -89,14 +88,14 @@ needs it.
 | `data/race_results.csv`, `data/measurements.csv` | Deliberately messy datasets | 2 — published skill · self-practice EDA |
 | *(GitHub, not the repo)* | An issue you file yourself | 3 — ticket-driven work |
 | `specs/stable_ledger.md` | A spec with no implementation | 4 — spec- and test-driven build |
-| `sql/schema.sql`, `sql/seed.sql` | Under-constrained schema, data with planted violations | 5 — SQL data-quality checks |
-| `src/stable_cli/` | CLI over the database. Contains one planted bug | 6 — off-by-one bug hunt |
+| `src/stable_cli/` | CLI over the database. Contains one planted bug | 3 — the ticket you fix |
+| `analysis/slow_aggregate.py` | Correct and needlessly slow | 5 — sub-agent chain |
+| `sql/schema.sql`, `sql/seed.sql` | Under-constrained schema, data with planted violations | 6 — SQL data-quality checks |
 | `legacy/stable_ledger.pl` | Real-flavoured legacy Perl, plus fixtures | 7 — Perl → Python |
 | `web/` | Static yard board with repetitive JS and CSS | 8 — unfamiliar technologies |
-| `analysis/slow_aggregate.py` | Correct and needlessly slow | 9 — sub-agent chain |
-| `src/pipeline/` | Four stages, not idempotent, not atomic | 10 — pipelines |
-| `src/monitor/` | Directory watcher with the five classic bugs | 10 — monitoring |
-| `src/ml/` | A classifier that reports 1.000 accuracy and is worthless | 11 — a little ML |
+| `src/pipeline/` | Four stages, not idempotent, not atomic | 9 — pipelines |
+| `src/monitor/` | Directory watcher with the five classic bugs | 9 — monitoring |
+| `src/ml/` | A classifier that reports 1.000 accuracy and is worthless | 10 — a little ML |
 
 ## A note on the planted bugs
 

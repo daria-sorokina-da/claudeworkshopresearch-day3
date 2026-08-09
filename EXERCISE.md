@@ -20,10 +20,10 @@ numbering; nothing here depends on them.
 | [**Exercise 2**](#exercise-2--build-your-team-toolkit-30-min--backbone) | Build your team toolkit — skill, `/review` command, test hook, `deny` rules | backbone |
 | [**Exercise 3**](#exercise-3--tickets-read-one-then-fix-it-23-min--backbone) | Tickets — read one, fix it, comment back | backbone |
 | [**Exercise 4**](#exercise-4--spec--and-test-driven-build-30-min--backbone) | Spec- and test-driven build | backbone |
-| [**Exercise 5**](#exercise-5--sql-data-quality-checks-20-min--backbone) | SQL data-quality checks | backbone |
-| [**Exercise 6**](#exercise-6--perl--python-conversion-30-min--if-time) | Perl → Python conversion | if time |
-| [**Exercise 7**](#exercise-7--unfamiliar-technologies-cssjs-25-min--if-time) | Unfamiliar technologies — CSS/JS | if time |
-| [**Exercise 8**](#exercise-8--orchestrate-sub-agents-25-min--backbone) | Orchestrate sub-agents | backbone |
+| [**Exercise 5**](#exercise-5--orchestrate-sub-agents-25-min--backbone) | Orchestrate sub-agents | backbone |
+| [**Exercise 6**](#exercise-6--sql-data-quality-checks-20-min--backbone) | SQL data-quality checks | backbone |
+| [**Exercise 7**](#exercise-7--perl--python-conversion-30-min--if-time) | Perl → Python conversion | if time |
+| [**Exercise 8**](#exercise-8--unfamiliar-technologies-cssjs-25-min--if-time) | Unfamiliar technologies — CSS/JS | if time |
 | [**Exercise 9**](#exercise-9--pipelines-and-monitoring-25-min--extra) | Pipelines and monitoring | extra |
 | [**Exercise 10**](#exercise-10--a-little-ml-25-min--extra) | A little ML | extra |
 | [**Exercise 11**](#exercise-11--claude-science-and-cowork-30-min--extra-if-access-allows) | Claude Science and Cowork | extra |
@@ -36,7 +36,8 @@ there is a toolkit for them to inherit.
 
 ## Timeline
 
-Wall-clock assumes a 09:15 start — shift it to suit.
+Wall-clock assumes a 09:15 start — shift it to suit. Breaks aren't scheduled; we'll call
+them as we go, which pushes everything after by however long we take.
 
 | Time | | Minutes |
 |---|---|---|
@@ -45,12 +46,10 @@ Wall-clock assumes a 09:15 start — shift it to suit.
 | 09:42 | **Exercise 2** — Build your team toolkit | 30 |
 | 10:12 | **Exercise 3** — Tickets | 23 |
 | 10:35 | **Exercise 4** — Spec- and test-driven build | 30 |
-| 11:05 | **Break** | 15 |
-| 11:20 | **Exercise 5** — SQL data-quality checks | 20 |
-| 11:40 | **Come back to the toolkit** — revise it | 5 |
-| 11:45 | **Exercise 8** — Orchestrate sub-agents | 25 |
-| 12:10 | **Wrap-up** and retrospective | 20 |
-| 12:30 | **Extras** — Exercises 6 and 7 first, then 9–11 | remaining time |
+| 11:05 | **Exercise 5** — Orchestrate sub-agents | 25 |
+| 11:30 | **Exercise 6** — SQL data-quality checks | 20 |
+| 11:50 | **Wrap-up** and retrospective | 20 |
+| 12:10 | **Extras** — Exercises 7 and 8 first, then 9–11 | remaining time |
 
 ---
 
@@ -181,7 +180,7 @@ Then in the session:
 ```
 
 You should see `stables-db` connected. Put it to work on something you'll need in
-Exercise 5:
+Exercise 6:
 
 > Using the stables-db MCP, produce a Mermaid ER diagram of the schema — every table
 > and its foreign-key relationships. Save it to diagrams/schema.md.
@@ -489,11 +488,112 @@ Watch red → green. Then `/review`, read the diff, commit.
 
 ---
 
-## ☕ Break — 15 minutes
+## Exercise 5 — Orchestrate sub-agents (25 min) · backbone
+
+A **sub-agent** is an independent work stream with its own context window and its own
+scoped tools — which is exactly why it is not the same as asking one session to do three
+things. They come after the toolkit because they inherit everything you've built: your
+`CLAUDE.md`, your skill, your `deny` rules. An agent on an unharnessed repo is just a
+faster way to make a mess.
+
+### 5.1 — Three reviewers in parallel (15 min)
+
+Review one change from three angles, each with its own context so they can't influence each
+other. **The standards go in the agents, not in the command** — an agent is the reusable
+unit, so each reviewer should carry the standards it's responsible for:
+
+```
+Create three subagents. Give each one the model and effort that fits the work:
+
+- correctness-reviewer (model: opus, effort: high): checks a diff against the spec,
+  including edge cases. Also checks that assumptions are stated rather than implied,
+  that any statistic is traceable to a script in the repo, and that nothing under
+  src/suitability_secret_algorithm/ has been touched. Read and Grep only.
+- tests-reviewer (model: sonnet, effort: medium): runs pytest, reports what fails, and
+  checks whether the tests cover the changed code — the error paths, not just the happy
+  path. Read and Bash.
+- style-reviewer (model: haiku, effort: low): checks conventions against CLAUDE.md and
+  flags hard-coded paths, credentials or magic numbers. Read only.
+```
+
+Open one of the files it writes under `.claude/agents/` — `model:` and `effort:` sit in the
+frontmatter alongside `tools:`. **Judging the work before you pick the tier is the point:**
+spec-versus-diff reasoning is genuinely hard, checking naming is not, and paying Opus rates
+for the second is how agent fleets get expensive.
+
+Then upgrade `/review` — the command you wrote in 2.2 — to fan out across all three
+instead of doing one pass itself. It only has to orchestrate now; the standards already
+live in the agents:
+
+```
+Rewrite my /review command. Instead of a single pass, it should review the diff on the
+current branch using the correctness, tests and style reviewers in parallel, then
+summarise where they agree and — more usefully — where they disagree.
+```
+
+Run it on the diff from Exercise 4:
+
+```
+/review
+```
+
+✅ **Acceptance:** three reviewers run on one diff, and you get a summary that names the
+disagreements rather than averaging them away.
+
+**Why three agents rather than one prompt asking for three things:** separate contexts don't
+contaminate each other. A single agent that has just concluded the code is correct is
+measurably softer on the question of whether it's actually tested. **The disagreements are
+the signal.**
+
+**What you just traded.** The 2.2 version was one deterministic pass you could read and
+edit. This one is three independent passes you can't fully predict — better at catching what
+you didn't think to check, and three times the tokens. Not three times the price, though:
+that's what the tiering bought you. `/cost` shows what the session actually spent.
+
+### 5.2 — A sequential chain (10 min · optional)
+
+Parallel is right when the tasks are independent. When each step needs the previous one's
+*output*, you want a chain. `analysis/slow_aggregate.py` is correct and needlessly slow —
+and the obvious culprit isn't the expensive one, so the profiling genuinely has to happen
+before the fix.
+
+Ask Claude to create two more agents:
+
+```
+Create two subagents, again with the model and effort that fit:
+- profiler (model: sonnet, effort: low): profiles a script and reports where the time
+  actually goes, nothing else. Read and Bash.
+- optimiser (model: opus, effort: high): makes the smallest change that removes a named
+  hotspot, preserving output exactly. Read and Edit.
+```
+
+Measuring is cheap; changing working code without breaking it isn't. That asymmetry is
+why the tiers differ.
+
+The order is the whole point, so put it in a skill rather than retyping it — orchestration
+lives in a skill, a command or your prompt, never in the agent files themselves:
+
+```
+Create a skill that should load automatically whenever I ask to speed up, optimise or
+profile code. It should capture this recipe:
+- profile first with the profiler agent, and show me the numbers before anything changes;
+- give the optimiser agent only the hotspot the profile actually named — never a guess;
+- confirm the output is byte-identical afterwards;
+- then run the correctness-reviewer agent on the diff.
+Keep it tight.
+```
+
+Now the short version does all of it:
+
+> Speed up analysis/slow_aggregate.py.
+
+✅ **Acceptance:** the profile arrives before the edit, the edit targets what the profile
+found rather than what looks slow, and the output is byte-identical. If the optimiser
+"improved" something the profiler never mentioned, you've just watched the failure mode that
+makes unsupervised chains expensive.
 
 ---
-
-## Exercise 5 — SQL data-quality checks (20 min) · backbone
+## Exercise 6 — SQL data-quality checks (20 min) · backbone
 
 `sql/schema.sql` is deliberately under-constrained — no `UNIQUE` on `registration_no`, no
 `REFERENCES` clauses — and `sql/seed.sql` loaded rows that exploit the gaps.
@@ -501,7 +601,7 @@ Watch red → green. Then `/review`, read the diff, commit.
 **Your job: find the bad rows, then decide what should have stopped them.** The
 `stables-db` MCP from 1.2 queries the database for you.
 
-### 5.1 — Codify the method as a skill (6 min)
+### 6.1 — Codify the method as a skill (6 min)
 
 Write the skill before you need it:
 
@@ -519,7 +619,7 @@ Keep it tight.
 
 ✅ **Acceptance:** the skill exists, and you've read through it.
 
-### 5.2 — Find the bad rows (8 min)
+### 6.2 — Find the bad rows (8 min)
 
 **Ask the short version — the skill should carry the rest:**
 
@@ -551,7 +651,7 @@ empty and check the joins — empty means clean data *or* a broken query.
    directions.
 </details>
 
-### 5.3 — Optimise one (3 min)
+### 6.3 — Optimise one (3 min)
 
 Your orphan-foreign-key checks join two tables on a column that has no index. SQLite
 answers those by reading every row of the table — a full scan. On this database's handful
@@ -567,7 +667,7 @@ usually the one-line fix.
 ✅ **Acceptance:** you can point at `SCAN <table>` in the output and name the index that
 turns it into a `SEARCH`.
 
-### 5.4 — Constraint or query? (3 min)
+### 6.4 — Constraint or query? (3 min)
 
 Two different fixes, doing two different jobs:
 
@@ -596,43 +696,7 @@ version-specific dialect docs.
 
 ---
 
-## Come back to the toolkit — revise it (5 min) · backbone
-
-Not an exercise; a habit. **Do this even if you skip Exercises 6 and 7.** You've had the
-toolkit running through three exercises now. Go back and fix it — this is the step that
-turns Exercise 2 from a demo into something that survives contact with your real repo.
-
-```
-Run `git log --oneline` and read today's commits, then read my toolkit: .claude/skills/,
-.claude/commands/review.md, and the hooks in .claude/settings.json. Based on what the
-commits show we actually did, suggest edits — things I had to say more than once, checks
-that never fired, checks I clearly wanted and didn't have. Propose the diffs; don't
-apply them.
-```
-
-(If you haven't `/clear`ed since Exercise 3, Claude can draw on the conversation too. The
-`git log` framing is there because most people will have.)
-
-Then decide each one yourself. Specifically:
-
-- **Did `/review` find anything real?** If it produced nothing all afternoon, its lines are
-  too vague. Add one you'd have caught by hand.
-- **Did the hook get in your way in Exercise 4?** Narrow the matcher, or make it run only
-  the affected test file. A guardrail people disable is worse than a narrower one they keep.
-- **Did the skill fire in Exercise 5?** If not, the `description` is the problem, not the
-  recipe.
-- **Anything you said twice today** belongs in one of these files.
-
-```bash
-git add .claude && git commit -m "chore: revise toolkit from what the lab actually needed"
-```
-
-> **Clock check:** it's 11:45 — go to Exercise 8. Exercises 6 and 7 are the first two
-> items in the extras slot and lose nothing by waiting.
-
----
-
-## Exercise 6 — Perl → Python conversion (30 min) · if time
+## Exercise 7 — Perl → Python conversion (30 min) · if time
 
 Your named legacy-migration case. The file is `legacy/stable_ledger.pl` — 2009 vintage,
 edited by six people, comments intermittently updated.
@@ -642,7 +706,7 @@ perl legacy/stable_ledger.pl legacy/fixtures/ledger_week_01.txt
 perl legacy/stable_ledger.pl legacy/fixtures/ledger_week_02.txt
 ```
 
-### 6.1 — Understand it (10 min)
+### 7.1 — Understand it (10 min)
 
 > Explain what this script does, section by section. Identify anything relying on
 > Perl-specific behaviour that won't translate directly to Python.
@@ -651,7 +715,7 @@ That last clause is where the value is: implicit `$_`, the aliasing `for` loop t
 `@f` in place, list-vs-scalar context, regex flag differences, string-vs-numeric comparison,
 `sort` defaulting to string order.
 
-### 6.2 — Characterise the current behaviour (5 min)
+### 7.2 — Characterise the current behaviour (5 min)
 
 **This is the legitimate use of source-derived tests.** The Perl script *is* the
 specification here, bugs included, because "same output" is the requirement.
@@ -659,12 +723,12 @@ specification here, bugs included, because "same output" is the requirement.
 > Run the Perl script against both fixtures and capture the exact output. Write those
 > as expected-output fixtures we can use to verify the port.
 
-### 6.3 — Port it (10 min)
+### 7.3 — Port it (10 min)
 
 > Port this to legacy/stable_ledger.py. Idiomatic Python, not transliterated Perl.
 > Identical output for both fixtures. Flag anywhere you had to make a judgement call.
 
-### 6.4 — Verify, then separate the fix (5 min)
+### 7.4 — Verify, then separate the fix (5 min)
 
 **Actually run both and diff the output.** Don't take its word.
 
@@ -677,7 +741,7 @@ if you do, and something breaks, you cannot tell which change did it.
 
 ---
 
-## Exercise 7 — Unfamiliar technologies: CSS/JS (25 min) · if time
+## Exercise 8 — Unfamiliar technologies: CSS/JS (25 min) · if time
 
 The concrete pain you named. Open `web/index.html` in a browser — it works.
 
@@ -717,79 +781,6 @@ different button label ("Hide list" rather than "Hide horses").
 
 ---
 
-## Exercise 8 — Orchestrate sub-agents (25 min) · backbone
-
-A **sub-agent** is an independent work stream with its own context window and its own
-scoped tools — which is exactly why it is not the same as asking one session to do three
-things. They come last because they inherit everything you've built: your `CLAUDE.md`, your
-skill, your `deny` rules. An agent on an unharnessed repo is just a faster way to make a
-mess.
-
-### 8.1 — Three reviewers in parallel (15 min)
-
-Review one change from three angles, each with its own context so they can't influence each
-other. Ask Claude to set them up:
-
-```
-Create three subagents:
-- correctness-reviewer: checks a diff against the spec, including edge cases. Read and
-  Grep only.
-- performance-reviewer: checks complexity and behaviour at 100x the data. Read and Bash.
-- style-reviewer: checks conventions against CLAUDE.md. Read only, and use Haiku for
-  this one — it doesn't need Opus to check naming.
-```
-
-Then:
-
-> Review the diff on this branch using the correctness, performance and style
-> reviewers in parallel. Summarise where they agree, and — more usefully — where
-> they disagree.
-
-**Why three agents rather than one prompt asking for three things:** separate contexts don't
-contaminate each other. A single agent that has just concluded the code is correct is
-measurably softer on its own performance critique. **The disagreements are the signal.**
-
-**Compare it with `/review` from 2.2** on the same diff. The command is one deterministic
-pass you can read and edit; the agents are three independent passes you can't fully predict.
-Different tools — the command for what you always want checked, the agents for what you
-haven't thought of.
-
-Three agents is roughly three times the tokens. `/cost` shows what the session has spent,
-and `/model` switches mid-session.
-
-### 8.2 — A sequential chain (10 min · optional)
-
-Parallel is right when the tasks are independent. When each step needs the previous one's
-*output*, you want a chain. `analysis/slow_aggregate.py` is correct and needlessly slow —
-and the obvious culprit isn't the expensive one, so the profiling genuinely has to happen
-before the fix.
-
-Ask Claude to create two more agents:
-
-```
-Create two subagents:
-- profiler: profiles a script and reports where the time actually goes, nothing else.
-  Read and Bash.
-- optimiser: makes the smallest change that removes a named hotspot, preserving output.
-  Read and Edit.
-```
-
-Then orchestrate them from the main session — the orchestration goes in your prompt, not
-in the agent files:
-
-> Speed up analysis/slow_aggregate.py in three steps. First the profiler agent: profile
-> it and report the top hotspots by cumulative time. Then the optimiser agent: fix only
-> the hotspot the profiler actually named. Then the correctness-reviewer agent on the
-> diff. Show me the profile before anything is changed, and confirm the output is
-> identical afterwards.
-
-✅ **Acceptance:** the profile arrives before the edit, the edit targets what the profile
-found rather than what looks slow, and the output is byte-identical. If the optimiser
-"improved" something the profiler never mentioned, you've just watched the failure mode that
-makes unsupervised chains expensive.
-
----
-
 ## Wrap-up (20 min)
 
 Covering today, and any earlier sessions you attended.
@@ -825,7 +816,7 @@ would see.
 
 ## Extras — in this order
 
-You've done the core. **Start with whichever of Exercise 6 (Perl → Python) and Exercise 7
+You've done the core. **Start with whichever of Exercise 7 (Perl → Python) and Exercise 8
 (CSS/JS) you skipped** — they're backbone-quality material that only lost out to the clock.
 Then Exercises 9–11 below; none depends on the others.
 
@@ -964,7 +955,7 @@ It's good at this when asked, but won't do it unprompted.
   provider. Two minutes, and it makes "the harness is what matters" concrete.
 - **CodeGraph** — index this repo, ask a structural question with and without it, compare
   tokens and tool calls.
-- **`analysis/slow_aggregate.py` by hand.** If you ran the agent chain in 8.2, do it
+- **`analysis/slow_aggregate.py` by hand.** If you ran the agent chain in 5.2, do it
   yourself now and compare: same hotspot, same fix?
   ```bash
   python -m cProfile -s cumtime analysis/slow_aggregate.py | head -25
