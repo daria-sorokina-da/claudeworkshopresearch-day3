@@ -15,7 +15,7 @@ here depends on them.
 
 | | Contents | |
 |---|---|---|
-| [**Part 0**](#part-0--setup-and-ground-rules-15-min) | Fork, clone, branch, install, ground rules | 15 min |
+| [**Part 0**](#part-0--setup-and-ground-rules-15-min--backbone) | Fork, clone, branch, install, ground rules | backbone |
 | [**Exercise 1**](#exercise-1--onboard-and-harness-the-repo-12-min--backbone) | Onboard and harness the repo — `/init`, a summary with its sources, `CLAUDE.md`, MCP | backbone |
 | [**Exercise 2**](#exercise-2--build-your-team-toolkit-30-min--backbone) | Build your team toolkit — skill, `/review` command, test hook, `deny` rules | backbone |
 | [**Exercise 3**](#exercise-3--tickets-read-one-then-fix-it-23-min--backbone) | Tickets — read one, fix it, comment back | backbone |
@@ -31,7 +31,7 @@ there is a toolkit for them to inherit.
 
 ---
 
-## Part 0 — Setup and ground rules (15 min)
+## Part 0 — Setup and ground rules (15 min) · backbone
 
 ```bash
 # 1. Fork this repo on GitHub, then clone YOUR fork
